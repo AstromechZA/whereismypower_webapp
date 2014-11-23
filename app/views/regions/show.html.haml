@@ -22,7 +22,7 @@
                 = area.name
               %td
                 - unless area.long_name.blank?
-                  = '(' + text_truncate(area.long_name) + ')'
+                  = text_truncate(area.long_name)
               %td.text-center= link_to 'Click here', show_area_path(area)
         - else
           %tr
