@@ -31,3 +31,8 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'database_cleaner'
 end
+
+# other production gems
+group :production do
+  gem 'rails_12factor'
+end
