@@ -3,7 +3,12 @@
 = render partial: 'layouts/loadshedding_warning', locals: {region: @region}
 
 .page-header
-  %h1= "#{@region.name} | #{@area.name} | #{@schedule.name}"
+  %h1
+    = link_to @region.name, show_region_path(@region)
+    |
+    = link_to @area.name, show_area_path(@area)
+    |
+    = @schedule.name
   - unless @area.long_name.blank?
     %h3= @area.long_name
 

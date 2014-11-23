@@ -3,7 +3,7 @@ cape_town = Region.find_by(name: 'Cape Town')
 schedule1 = Schedule.create(name: 'Stage 1', region: cape_town)
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 11'),
+  area: Area.find_by(name: 'Area 11'),
   schedule: schedule1,
   monday_outtages: '',
   tuesday_outtages: '10:00-12:30',
@@ -15,7 +15,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 10'),
+  area: Area.find_by(name: 'Area 10'),
   schedule: schedule1,
   monday_outtages: '',
   tuesday_outtages: '08:00-10:30',
@@ -27,7 +27,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 13'),
+  area: Area.find_by(name: 'Area 13'),
   schedule: schedule1,
   monday_outtages: '',
   tuesday_outtages: '14:00-16:30',
@@ -39,7 +39,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 12'),
+  area: Area.find_by(name: 'Area 12'),
   schedule: schedule1,
   monday_outtages: '',
   tuesday_outtages: '12:00-14:30',
@@ -51,7 +51,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 15'),
+  area: Area.find_by(name: 'Area 15'),
   schedule: schedule1,
   monday_outtages: '',
   tuesday_outtages: '18:00-20:30',
@@ -63,7 +63,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 14'),
+  area: Area.find_by(name: 'Area 14'),
   schedule: schedule1,
   monday_outtages: '',
   tuesday_outtages: '16:00-18:30',
@@ -75,7 +75,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 16'),
+  area: Area.find_by(name: 'Area 16'),
   schedule: schedule1,
   monday_outtages: '',
   tuesday_outtages: '20:00-22:30',
@@ -87,7 +87,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 1'),
+  area: Area.find_by(name: 'Area 1'),
   schedule: schedule1,
   monday_outtages: '06:00-08:30',
   tuesday_outtages: '',
@@ -99,7 +99,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 3'),
+  area: Area.find_by(name: 'Area 3'),
   schedule: schedule1,
   monday_outtages: '10:00-12:30',
   tuesday_outtages: '',
@@ -111,7 +111,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 2'),
+  area: Area.find_by(name: 'Area 2'),
   schedule: schedule1,
   monday_outtages: '08:00-10:30',
   tuesday_outtages: '',
@@ -123,7 +123,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 5'),
+  area: Area.find_by(name: 'Area 5'),
   schedule: schedule1,
   monday_outtages: '14:00-16:30',
   tuesday_outtages: '',
@@ -135,7 +135,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 4'),
+  area: Area.find_by(name: 'Area 4'),
   schedule: schedule1,
   monday_outtages: '12:00-14:30',
   tuesday_outtages: '',
@@ -147,7 +147,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 7'),
+  area: Area.find_by(name: 'Area 7'),
   schedule: schedule1,
   monday_outtages: '18:00-20:30',
   tuesday_outtages: '',
@@ -159,7 +159,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 6'),
+  area: Area.find_by(name: 'Area 6'),
   schedule: schedule1,
   monday_outtages: '16:00-18:30',
   tuesday_outtages: '',
@@ -171,7 +171,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 9'),
+  area: Area.find_by(name: 'Area 9'),
   schedule: schedule1,
   monday_outtages: '',
   tuesday_outtages: '06:00-08:30',
@@ -183,7 +183,7 @@ AreaSchedule.create(
 )
 
 AreaSchedule.create(
-  area: Area.find_by(name: 'area 8'),
+  area: Area.find_by(name: 'Area 8'),
   schedule: schedule1,
   monday_outtages: '20:00-22:30',
   tuesday_outtages: '',

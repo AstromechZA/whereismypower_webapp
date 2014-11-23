@@ -3,7 +3,10 @@
 = render partial: 'layouts/loadshedding_warning', locals: {region: @region}
 
 .page-header
-  %h1= "#{@region.name} | #{@area.name}"
+  %h1
+    = link_to @region.name, show_region_path(@region)
+    |
+    = link_to @area.name, show_area_path(@area)
   - unless @area.long_name.blank?
     %h3= @area.long_name
 
@@ -15,6 +18,11 @@
       %h4 Pick a load schedding schedule to view:
       %ul.text-left{style: 'display: inline-block; margin: 0 auto'}
         - @schedules.each do |area_schedule|
-          %li
-            = link_to area_schedule.schedule.name, show_area_schedule_path(area_schedule)
+          - if @region.active_schedule_id == area_schedule.schedule_id
+            %li
+              %strong
+                = link_to "#{area_schedule.schedule.name} (current)", show_area_schedule_path(area_schedule)
+          - else
+            %li
+              = link_to area_schedule.schedule.name, show_area_schedule_path(area_schedule)
 

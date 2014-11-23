@@ -11,7 +11,8 @@
     %table.table.table-bordered.table-condensed
       %thead
         %tr
-          %th Area Name (approximate locations)
+          %th Area Name
+          %th Approximate Locations
           %th{style: 'white-space: nowrap', width: 1} More Detail
       %tbody
         - unless @areas.empty?
@@ -19,6 +20,7 @@
             %tr
               %td
                 = area.name
+              %td
                 - unless area.long_name.blank?
                   = '(' + text_truncate(area.long_name) + ')'
               %td.text-center= link_to 'Click here', show_area_path(area)
