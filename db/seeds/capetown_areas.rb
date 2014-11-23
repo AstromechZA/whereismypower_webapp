@@ -70,7 +70,7 @@ Area.create(
 Area.create(
   region: cape_town,
   name: 'Area 13',
-  long_name: 'Delft, Blue Downds, Goodwood, Parow',
+  long_name: 'Delft, Blue Downs, Goodwood, Parow',
 )
 
 Area.create(
