@@ -6,27 +6,25 @@
   %h1= @region.name
 
 .row
-  .col-md-8.col-md-offset-2
-    %h4 Schedules by Area:
-    %table.table.table-bordered.table-condensed
+  .col-md-8.col-md-offset-2.text-center
+    %h4 Select your area from the table below:
+    %table.table.table-bordered.table-striped.table-hover.table-condensed.text-left
       %thead
         %tr
           %th Area Name
           %th Approximate Locations
-          %th{style: 'white-space: nowrap', width: 1} More Detail
       %tbody
         - unless @areas.empty?
           - @areas.each do |area|
-            %tr
+            %tr{data: {link: show_area_path(area)}}
               %td
                 = area.name
               %td
                 - unless area.long_name.blank?
                   = text_truncate(area.long_name)
-              %td.text-center= link_to 'Click here', show_area_path(area)
         - else
           %tr
-            %td.text-center{colspan: 3}
+            %td.text-center{colspan: 2}
               %h4 No Areas are supported in this region yet :(
 
     %h5

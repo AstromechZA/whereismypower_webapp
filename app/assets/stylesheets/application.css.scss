@@ -50,3 +50,7 @@ td.thin, th.thin {
         font-size: 10px;
     }
 }
+
+tr[data-link] {
+  cursor: pointer;
+}

@@ -17,19 +17,18 @@
     - else
       %h4 Pick a load schedding schedule to view:
 
-      %table.table.table-bordered.text-left
+      %table.table.table-bordered.table-striped.table-hover.text-left
         %thead
           %th Schedule
           %th Description
-          %th{style: 'width:1%'} Show
         %tbody
           - @schedules.each do |area_schedule|
-            %tr
+            %tr{data: {link: show_area_schedule_path(area_schedule)}}
               %td
                 - if @region.active_schedule_id == area_schedule.schedule_id
                   %strong
-                    = link_to "#{area_schedule.schedule.name} (current)", show_area_schedule_path(area_schedule)
+                    = area_schedule.schedule.name
+                    (Active)
                 - else
-                  = link_to area_schedule.schedule.name, show_area_schedule_path(area_schedule)
+                  = area_schedule.schedule.name
               %td= area_schedule.schedule.description
-              %td{style: 'white-space: nowrap'}= link_to 'Click here', show_area_schedule_path(area_schedule)
