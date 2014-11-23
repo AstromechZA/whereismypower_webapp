@@ -32,3 +32,12 @@ html, body {
 #full-wrap > .container {
   padding-bottom: 50px;
 }
+
+td.thin, th.thin {
+    width: 1%;
+    whitespace: nowrap;
+}
+
+.table-row-emph {
+    font-weight: bold;
+}
