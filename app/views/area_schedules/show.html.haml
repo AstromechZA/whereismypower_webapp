@@ -20,24 +20,24 @@
       %th Day
       %th Load shedding
   %tbody
-    %tr
+    %tr{class: ('info' if is_day('Monday'))}
       %td Monday
       %td= simple_schedule_format(@area_schedule.monday_outtages)
-    %tr
+    %tr{class: ('info' if is_day('Tuesday'))}
       %td Tuesday
       %td= simple_schedule_format(@area_schedule.tuesday_outtages)
-    %tr
+    %tr{class: ('info' if is_day('Wednesday'))}
       %td Wednesday
       %td= simple_schedule_format(@area_schedule.wednesday_outtages)
-    %tr
+    %tr{class: ('info' if is_day('Thursday'))}
       %td Thursday
       %td= simple_schedule_format(@area_schedule.thursday_outtages)
-    %tr
+    %tr{class: ('info' if is_day('Friday'))}
       %td Friday
       %td= simple_schedule_format(@area_schedule.friday_outtages)
-    %tr
+    %tr{class: ('info' if is_day('Saturday'))}
       %td Saturday
       %td= simple_schedule_format(@area_schedule.saturday_outtages)
-    %tr
+    %tr{class: ('info' if is_day('Sunday'))}
       %td Sunday
       %td= simple_schedule_format(@area_schedule.sunday_outtages)

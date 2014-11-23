@@ -1,6 +1,6 @@
 cape_town = Region.find_by(name: 'Cape Town')
 
-schedule1 = Schedule.create(name: 'Stage 1', region: cape_town)
+schedule1 = Schedule.create(name: 'Stage 1', region: cape_town, description: 'Mild')
 
 AreaSchedule.create(
   area: Area.find_by(name: 'Area 11'),

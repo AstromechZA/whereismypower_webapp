@@ -16,13 +16,20 @@
       %h4 There are no load shedding schedules for this area
     - else
       %h4 Pick a load schedding schedule to view:
-      %ul.text-left{style: 'display: inline-block; margin: 0 auto'}
-        - @schedules.each do |area_schedule|
-          - if @region.active_schedule_id == area_schedule.schedule_id
-            %li
-              %strong
-                = link_to "#{area_schedule.schedule.name} (current)", show_area_schedule_path(area_schedule)
-          - else
-            %li
-              = link_to area_schedule.schedule.name, show_area_schedule_path(area_schedule)
 
+      %table.table.table-bordered.text-left
+        %thead
+          %th Schedule
+          %th Description
+          %th{style: 'width:1%'} Show
+        %tbody
+          - @schedules.each do |area_schedule|
+            %tr
+              %td
+                - if @region.active_schedule_id == area_schedule.schedule_id
+                  %strong
+                    = link_to "#{area_schedule.schedule.name} (current)", show_area_schedule_path(area_schedule)
+                - else
+                  = link_to area_schedule.schedule.name, show_area_schedule_path(area_schedule)
+              %td= area_schedule.schedule.description
+              %td{style: 'white-space: nowrap'}= link_to 'Click here', show_area_schedule_path(area_schedule)
