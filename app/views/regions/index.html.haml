@@ -1,0 +1,20 @@
+- title 'Supported Regions'
+
+.page-header
+  %h1 Supported Regions
+
+%table.table.table-bordered
+  %thead
+    %tr
+      %th Region
+      %th
+  %tbody
+    - unless @regions.empty?
+      - @regions.each do |region|
+        %tr
+          %td= region.name
+          %td= link_to 'Click here', show_region_path(region)
+    - else
+      %tr
+        %td.text-center{colspan: 2}
+          %h4 No Regions are supported yet :(

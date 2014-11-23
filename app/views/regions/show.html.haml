@@ -1,0 +1,33 @@
+- title @region.name
+
+= render partial: 'layouts/loadshedding_warning', locals: {region: @region}
+
+.page-header
+  %h1= @region.name
+
+.row
+  .col-md-8.col-md-offset-2
+    %h4 Schedules by Area:
+    %table.table.table-bordered.table-condensed
+      %thead
+        %tr
+          %th Area Name (approximate locations)
+          %th{style: 'white-space: nowrap', width: 1} More Detail
+      %tbody
+        - unless @areas.empty?
+          - @areas.each do |area|
+            %tr
+              %td
+                = area.name
+                - unless area.long_name.blank?
+                  = '(' + text_truncate(area.long_name) + ')'
+              %td.text-center= link_to 'Click here', show_area_path(area)
+        - else
+          %tr
+            %td.text-center{colspan: 3}
+              %h4 No Areas are supported in this region yet :(
+
+    %h5
+      Not sure which area you're in? Check
+      = link_to 'the map provided by capetown.gov.za.', 'http://www.capetown.gov.za/en/electricity/Loadshedding%20Winter%202014/Loadshedding-10-Nov-2014_with_table.pdf'
+

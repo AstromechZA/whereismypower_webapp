@@ -1,0 +1,38 @@
+- title "#{@region.name} | #{@area.name} | #{@schedule.name}"
+
+= render partial: 'layouts/loadshedding_warning', locals: {region: @region}
+
+.page-header
+  %h1= "#{@region.name} | #{@area.name} | #{@schedule.name}"
+  - unless @area.long_name.blank?
+    %h3= @area.long_name
+
+%h3 Load Shedding Time Table
+
+%table.table.table-bordered
+  %thead
+    %tr
+      %th Day
+      %th Load shedding
+  %tbody
+    %tr
+      %td Monday
+      %td= simple_schedule_format(@area_schedule.monday_outtages)
+    %tr
+      %td Tuesday
+      %td= simple_schedule_format(@area_schedule.tuesday_outtages)
+    %tr
+      %td Wednesday
+      %td= simple_schedule_format(@area_schedule.wednesday_outtages)
+    %tr
+      %td Thursday
+      %td= simple_schedule_format(@area_schedule.thursday_outtages)
+    %tr
+      %td Friday
+      %td= simple_schedule_format(@area_schedule.friday_outtages)
+    %tr
+      %td Saturday
+      %td= simple_schedule_format(@area_schedule.saturday_outtages)
+    %tr
+      %td Sunday
+      %td= simple_schedule_format(@area_schedule.sunday_outtages)

@@ -1,0 +1,20 @@
+- title "#{@region.name} | #{@area.name}"
+
+= render partial: 'layouts/loadshedding_warning', locals: {region: @region}
+
+.page-header
+  %h1= "#{@region.name} | #{@area.name}"
+  - unless @area.long_name.blank?
+    %h3= @area.long_name
+
+.row
+  .col-md-6.col-md-offset-3.text-center
+    - if @schedules.empty?
+      %h4 There are no load shedding schedules for this area
+    - else
+      %h4 Pick a load schedding schedule to view:
+      %ul.text-left{style: 'display: inline-block; margin: 0 auto'}
+        - @schedules.each do |area_schedule|
+          %li
+            = link_to area_schedule.schedule.name, show_area_schedule_path(area_schedule)
+

@@ -1,0 +1,6 @@
+- if region.is_load_shedding
+  .alert.alert-dismissable.alert-danger.text-center
+    %button.close{type: 'button', 'data-dismiss' => 'alert', 'aria-hidden' => 'true'}
+      &times;
+    %h4 WARNING
+    = "#{region.name} is currently load shedding using schedule '#{region.active_schedule.name}'."
