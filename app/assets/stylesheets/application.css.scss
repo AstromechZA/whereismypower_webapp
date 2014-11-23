@@ -53,4 +53,7 @@ td.thin, th.thin {
 
 tr[data-link] {
   cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }

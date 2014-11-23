@@ -5,16 +5,16 @@
 
 .row
   .col-md-6.col-md-offset-3
-    %table.table.table-bordered
+    %h4 Select your region:
+    %table.table.table-bordered.table-striped.table-hover.table-condensed
       %thead
         %tr
           %th Region
           %th Load Shedding?
-          %th.thin Detail
       %tbody
         - unless @regions.empty?
           - @regions.each do |region|
-            %tr
+            %tr{data: {link: show_region_path(region)}}
               %td= region.name
               %td
                 = region.is_load_shedding ? 'Yes' : 'No'
@@ -22,8 +22,7 @@
                   (
                   = region.active_schedule.name
                   )
-              %td.thin= link_to 'Click here', show_region_path(region)
         - else
           %tr
-            %td.text-center{colspan: 3}
+            %td.text-center{colspan: 2}
               %h4 No Regions are supported yet :(
