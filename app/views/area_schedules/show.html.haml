@@ -9,6 +9,11 @@
     = link_to @area.name, show_area_path(@area)
     |
     = @schedule.name
+    %small
+      - if @region.active_schedule_id == @schedule.id
+        (Active!)
+      - else
+        (Not Active)
   - unless @area.long_name.blank?
     %h3= @area.long_name
 
