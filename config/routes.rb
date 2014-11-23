@@ -6,4 +6,6 @@ Rails.application.routes.draw do
 
   get '/areas/:id', to: 'areas#show', as: 'show_area'
   get '/area_schedules/:id', to: 'area_schedules#show', as: 'show_area_schedule'
+
+  get '/schedules/recheck', to: 'schedules#recheck', as: 'recheck_schedule'
 end

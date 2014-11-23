@@ -1,4 +1,4 @@
-cape_town = Region.create(
+Region.create(
   name: 'Cape Town',
   long_name: 'Greater Cape Town Area'
 )
