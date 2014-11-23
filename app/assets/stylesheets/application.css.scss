@@ -35,9 +35,18 @@ html, body {
 
 td.thin, th.thin {
     width: 1%;
-    whitespace: nowrap;
+    white-space: nowrap;
 }
 
 .table-row-emph {
     font-weight: bold;
+}
+
+.footer-links {
+    text-align: center;
+
+    a {
+        color: #AAA;
+        font-size: 10px;
+    }
 }

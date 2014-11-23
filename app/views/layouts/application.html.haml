@@ -21,6 +21,8 @@
         %p.text-center
           %small
             This website is not affiliated with Eskom or any official entity in any way. All information shown is publicly accessible and accurate to the best of our knowledge. Use any data at your own risk, we take no responsibility for any inaccuracies or errors.
+        %p.footer-links
+          = link_to 'Region Updates', latest_region_updates_path
 
       - if Rails.env.production?
         :javascript

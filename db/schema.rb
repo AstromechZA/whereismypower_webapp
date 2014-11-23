@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141122210842) do
+ActiveRecord::Schema.define(version: 20141123115038) do
 
   create_table "area_schedules", force: true do |t|
     t.integer  "schedule_id"
@@ -31,6 +31,15 @@ ActiveRecord::Schema.define(version: 20141122210842) do
     t.string   "name"
     t.string   "long_name",  default: ""
     t.integer  "region_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "region_updates", force: true do |t|
+    t.integer  "region_id"
+    t.boolean  "is_load_shedding_active"
+    t.string   "active_schedule_name"
+    t.integer  "active_schedule_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

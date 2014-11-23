@@ -9,14 +9,21 @@
       %thead
         %tr
           %th Region
-          %th
+          %th Load Shedding?
+          %th.thin Detail
       %tbody
         - unless @regions.empty?
           - @regions.each do |region|
             %tr
               %td= region.name
-              %td{style: 'white-space: nowrap; width: 1%'}= link_to 'Click here', show_region_path(region)
+              %td
+                = region.is_load_shedding ? 'Yes' : 'No'
+                - if region.is_load_shedding
+                  (
+                  = region.active_schedule.name
+                  )
+              %td.thin= link_to 'Click here', show_region_path(region)
         - else
           %tr
-            %td.text-center{colspan: 2}
+            %td.text-center{colspan: 3}
               %h4 No Regions are supported yet :(
