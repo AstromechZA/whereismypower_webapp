@@ -3,7 +3,7 @@ require 'net/http'
 class RegionUpdatesController < ApplicationController
 
   def latest
-    @latest_updates = RegionUpdate.includes(:region).limit(20)
+    @latest_updates = RegionUpdate.includes(:region).limit(20).reverse
   end
 
   def recheck
