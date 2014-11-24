@@ -10,5 +10,7 @@ Rails.application.routes.draw do
   get '/region_updates/recheck', to: 'region_updates#recheck', as: 'recheck_region'
   get '/region_updates', to: 'region_updates#latest', as: 'latest_region_updates'
 
+  get '/area_maps/capetown', to: 'maps#capetown', as: 'area_maps_capetown'
+
   get '*unmatched_route', to: 'application#not_found'
 end

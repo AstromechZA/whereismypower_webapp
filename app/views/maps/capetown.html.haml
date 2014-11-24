@@ -1,0 +1,10 @@
+- title 'Cape Town Area Map'
+
+#map-canvas.map-container
+
+= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?v=3.exp'
+= javascript_include_tag 'markerwithlabel.js'
+= javascript_include_tag 'capetown_areas_data.js'
+
+:javascript
+  google.maps.event.addDomListener(window, 'load', initialize);

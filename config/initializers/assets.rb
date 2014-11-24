@@ -11,3 +11,5 @@ Rails.application.config.assets.paths << "#{Rails.root}/vendor/assets/stylesheet
 
 Rails.application.config.assets.precompile << /\.(?:svg|eot|woff|ttf|otf)\z/
 Rails.application.config.assets.precompile += %w( bootstrap.min.js )
+Rails.application.config.assets.precompile += %w( markerwithlabel.js )
+Rails.application.config.assets.precompile += %w( capetown_areas_data.js )

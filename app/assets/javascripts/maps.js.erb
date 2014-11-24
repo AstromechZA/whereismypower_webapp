@@ -1,0 +1,86 @@
+function initialize() {
+  var mapOptions = {
+    zoom: 11,
+    center: new google.maps.LatLng(-34.0535488479391, 18.572544213286605),
+    mapTypeId: google.maps.MapTypeId.TERRAIN
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var movable_marker = new MarkerWithLabel({
+      position: new google.maps.LatLng(0, 0),
+      draggable: false,
+      map: map,
+      icon: {
+        url: "<%= asset_path 'blank.png' %>"
+      },
+      labelContent: '?',
+      labelClass: 'map-maker-main',
+      labelAnchor: new google.maps.Point(40, 40),
+      active_region_area: null,
+    })
+
+  for (var area in window.area_regions_data) {
+    if (window.area_regions_data.hasOwnProperty(area)) {
+      var regions = window.area_regions_data[area]
+
+      for (var i = regions.length - 1; i >= 0; i--) {
+        var current_region = regions[i]
+        var coords = []
+        for (var j = current_region.length - 1; j >= 0; j--) {
+          var p = current_region[j]
+          coords.push(new google.maps.LatLng(p[1], p[0]))
+        };
+
+        var polygon = new google.maps.Polygon({
+          paths: coords,
+          strokeColor: '#000000',
+          strokeOpacity: 1,
+          strokeWeight: 0.2,
+          fillColor: window.area_colours[area],
+          fillOpacity: 0.7,
+          map: map,
+          region_area: area,
+        });
+
+        google.maps.event.addListener(polygon, 'mousemove', function(e) {
+          movable_marker.setPosition(e.latLng)
+
+          if (movable_marker.active_region_area == null) {
+            movable_marker.labelContent = this.region_area
+            movable_marker.labelStyle = {'border-color':window.area_colours[this.region_area]}
+            movable_marker.setMap(map)
+            movable_marker.active_region_area = this.region_area
+          }
+
+          movable_marker.setVisible(true)
+        })
+
+        google.maps.event.addListener(polygon, 'mouseout', function(e) {
+          movable_marker.setVisible(false)
+          movable_marker.active_region_area = null
+        })
+      };
+
+      var flags = window.area_flags[area]
+
+      for (var i = flags.length - 1; i >= 0; i--) {
+        var f = flags[i]
+
+        var marker = new MarkerWithLabel({
+          position: new google.maps.LatLng(f[1], f[0]),
+          draggable: false,
+          map: map,
+          icon: {
+            url: "<%= asset_path 'blank.png' %>"
+          },
+          labelContent: area,
+          labelClass: 'map-maker-main',
+          labelStyle: {'border-color': window.area_colours[area]},
+          labelAnchor: new google.maps.Point(15, 15),
+        })
+      };
+    }
+  }
+}
+
