@@ -17,6 +17,7 @@ function initialize() {
       labelContent: '?',
       labelClass: 'map-maker-main',
       labelAnchor: new google.maps.Point(40, 40),
+      labelStyle: {'border-color': '#CCC'},
       active_region_area: null,
     })
 
@@ -48,7 +49,7 @@ function initialize() {
 
           if (movable_marker.active_region_area == null) {
             movable_marker.labelContent = this.region_area
-            movable_marker.labelStyle = {'border-color':window.area_colours[this.region_area]}
+            movable_marker.labelStyle['border-color'] = window.area_colours[this.region_area]
             movable_marker.setMap(map)
             movable_marker.active_region_area = this.region_area
           }
