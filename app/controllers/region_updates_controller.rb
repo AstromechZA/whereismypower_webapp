@@ -1,4 +1,6 @@
 require 'net/http'
+require 'nokogiri'
+require 'open-uri'
 
 class RegionUpdatesController < ApplicationController
 
@@ -7,12 +9,10 @@ class RegionUpdatesController < ApplicationController
   end
 
   def recheck
-    uri = 'http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'
-    response = Net::HTTP.get_response(URI.parse(uri))
+    nhtml = Nokogiri::HTML(open('http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'))
 
-    m = /class\="ms-rteForeColor-2 ms-rteFontSize-3".*?\>(.*?)\<\/div\>/.match(response.body)
-    banner_content = m[1].gsub(/\<.*?\>/, ' ')
-    puts banner_content
+    banner = nhtml.css('.CityArticleText center b').to_s
+    banner_content = ActionController::Base.helpers.strip_tags(banner)
 
     cpt = Region.find_by(name: 'Cape Town')
     cpt.is_load_shedding = false

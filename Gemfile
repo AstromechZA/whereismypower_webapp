@@ -23,6 +23,8 @@ gem 'haml-rails', '~> 0.5.3'
 # javascript and css includes
 gem 'jquery-rails', '~> 3.1.2'
 
+gem 'nokogiri', '~> 1.6.5'
+
 # gems for unittests
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0' # Rspec runs our unit tests
