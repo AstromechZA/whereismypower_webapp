@@ -37,10 +37,7 @@ html, body {
   padding-bottom: 50px;
 }
 
-td.thin, th.thin {
-    width: 1%;
-    white-space: nowrap;
-}
+
 
 .table-row-emph {
     font-weight: bold;
@@ -48,10 +45,10 @@ td.thin, th.thin {
 
 .footer-links {
     text-align: center;
+    font-size: 10px;
 
     a {
         color: #AAA;
-        font-size: 10px;
     }
 }
 
@@ -69,4 +66,24 @@ tr[data-link] {
 .alert {
     margin-bottom: 9px;
     margin-top: 9px;
+}
+
+table {
+
+    td.thin, th.thin {
+        width: 1%;
+        white-space: nowrap;
+    }
+
+    td {
+        a {
+            color: #777;
+            &:hover {
+                color: #777;
+            }
+            &:visited {
+                color: #777;
+            }
+        }
+    }
 }

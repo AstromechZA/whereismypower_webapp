@@ -18,10 +18,12 @@
           - @areas.each do |area|
             %tr{data: {link: show_area_path(area)}}
               %td
-                = area.name
+                %a{href: show_area_path(area)}
+                  = area.name
               %td
                 - unless area.long_name.blank?
-                  = text_truncate(area.long_name)
+                  %a{href: show_area_path(area)}
+                    = text_truncate(area.long_name)
         - else
           %tr
             %td.text-center{colspan: 2}

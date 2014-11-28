@@ -23,12 +23,13 @@
           %th Description
         %tbody
           - @schedules.each do |area_schedule|
-            %tr{data: {link: show_area_schedule_path(area_schedule)}}
+            - is_active = (@region.active_schedule_id == area_schedule.schedule_id)
+            %tr{class: ('table-row-emph' if is_active), data: {link: show_area_schedule_path(area_schedule)}}
               %td
-                - if @region.active_schedule_id == area_schedule.schedule_id
-                  %strong
-                    = area_schedule.schedule.name
-                    (Active)
-                - else
+                %a{href: show_area_schedule_path(area_schedule)}
                   = area_schedule.schedule.name
-              %td= area_schedule.schedule.description
+                  - if is_active
+                    (Active)
+              %td
+                %a{href: show_area_schedule_path(area_schedule)}
+                  = area_schedule.schedule.description

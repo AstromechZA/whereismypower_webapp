@@ -25,6 +25,9 @@
             = link_to 'www.capetown.gov.za', 'http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'
         %p.footer-links
           = link_to 'Region Updates', latest_region_updates_path
+          = " | Support: "
+          = mail_to 'wheresmypower@gmx.com'
+
 
       - if Rails.env.production?
         :javascript

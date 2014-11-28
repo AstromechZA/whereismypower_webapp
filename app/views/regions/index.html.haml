@@ -15,13 +15,16 @@
         - unless @regions.empty?
           - @regions.each do |region|
             %tr{data: {link: show_region_path(region)}}
-              %td= region.name
               %td
-                = region.is_load_shedding ? 'Yes' : 'No'
-                - if region.is_load_shedding
-                  (
-                  = region.active_schedule.name
-                  )
+                %a{href: show_region_path(region)}
+                  = region.name
+              %td
+                %a{href: show_region_path(region)}
+                  = region.is_load_shedding ? 'Yes' : 'No'
+                  - if region.is_load_shedding
+                    (
+                    = region.active_schedule.name
+                    )
         - else
           %tr
             %td.text-center{colspan: 2}
