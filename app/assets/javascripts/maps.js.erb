@@ -61,6 +61,12 @@ function initialize() {
           movable_marker.setVisible(false)
           movable_marker.active_region_area = null
         })
+
+        google.maps.event.addListener(polygon, 'click', function(e) {
+          if (movable_marker.active_region_area != null) {
+            window.location = '/areas/' + movable_marker.active_region_area
+          }
+        })
       };
 
       var flags = window.area_flags[area]
