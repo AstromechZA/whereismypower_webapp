@@ -15,8 +15,8 @@ function initialize() {
         url: "<%= asset_path 'blank.png' %>"
       },
       labelContent: '?',
-      labelClass: 'map-maker-main',
-      labelAnchor: new google.maps.Point(40, 40),
+      labelClass: 'map-maker-movable',
+      labelAnchor: new google.maps.Point(29,29),
       labelStyle: {'border-color': '#CCC'},
       active_region_area: null,
     })
@@ -84,7 +84,11 @@ function initialize() {
           labelContent: area,
           labelClass: 'map-maker-main',
           labelStyle: {'border-color': window.area_colours[area]},
-          labelAnchor: new google.maps.Point(15, 15),
+          labelAnchor: new google.maps.Point(17, 17),
+        })
+
+        google.maps.event.addListener(marker, 'click', function(e) {
+          window.location = '/areas/' + this.labelContent
         })
       };
     }
