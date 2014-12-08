@@ -1,8 +1,10 @@
 - if region.is_load_shedding
   .alert.alert-dismissable.alert-danger.text-center
-    %h4 WARNING
+    %h4 WARNING!
     = "#{region.name} is currently load shedding using schedule '#{region.active_schedule.name}'."
 - else
   .alert.alert-dismissable.alert-success.text-center
-    %h4 GOOD NEWS
-    = "According to www.capetown.gov.za, #{region.name} is not currently load shedding."
+    %h4 GOOD NEWS!
+    According to
+    = link_to 'loadshedding.eskom.co.za', 'http://loadshedding.eskom.co.za'
+    = ", #{region.name} is not experiencing load shedding."

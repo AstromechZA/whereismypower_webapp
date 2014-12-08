@@ -9,10 +9,12 @@ class RegionUpdatesController < ApplicationController
   end
 
   def recheck
-    nhtml = Nokogiri::HTML(open('http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'))
+    nhtml = Nokogiri::HTML(open('http://loadshedding.eskom.co.za'))
 
-    banner = nhtml.css('.CityArticleText center b').to_s
-    banner_content = ActionController::Base.helpers.strip_tags(banner)
+    banner = nhtml.css('#loadshedstatus #lsstatus').to_s
+    banner_content = ActionController::Base.helpers.strip_tags(banner).upcase
+
+    puts banner_content
 
     cpt = Region.find_by(name: 'Cape Town')
     cpt.is_load_shedding = false
