@@ -31,6 +31,16 @@ html, body {
         font-size: 80%;
     }
   }
+
+  .footer-links{
+    text-align: center;
+    font-size: 10px;
+    color: #AAA;
+
+    a {
+        color: #AAA;
+    }
+  }
 }
 
 #full-wrap > .container {
@@ -43,14 +53,7 @@ html, body {
     font-weight: bold;
 }
 
-.footer-links {
-    text-align: center;
-    font-size: 10px;
 
-    a {
-        color: #AAA;
-    }
-}
 
 tr[data-link] {
   cursor: pointer;

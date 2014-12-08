@@ -2,3 +2,7 @@
   .alert.alert-dismissable.alert-danger.text-center
     %h4 WARNING
     = "#{region.name} is currently load shedding using schedule '#{region.active_schedule.name}'."
+- else
+  .alert.alert-dismissable.alert-success.text-center
+    %h4 GOOD NEWS
+    = "According to www.capetown.gov.za, #{region.name} is not currently load shedding."

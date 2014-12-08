@@ -2,7 +2,7 @@
 %html
   %head
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1'}
-    %title= "Where's the power?" + (content_for?(:title) ? " : #{yield :title}" : '')
+    %title= "Where's my power?" + (content_for?(:title) ? " : #{yield :title}" : '')
     = stylesheet_link_tag :application, media: 'all'
     = javascript_include_tag :application
     = favicon_link_tag 'favicon.ico'
