@@ -10,7 +10,6 @@
     = yield(:head)
   %body
     #full-wrap
-      = render 'layouts/navbar'
       .container
 
         = render 'layouts/flash_messages'
@@ -27,8 +26,7 @@
             and
             = link_to 'www.capetown.gov.za.', 'http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'
         %p.footer-links
-          = link_to 'Region Updates', latest_region_updates_path
-          = " | Support: "
+          = "Support: "
           = mail_to 'wheresmypower@gmx.com'
 
 
