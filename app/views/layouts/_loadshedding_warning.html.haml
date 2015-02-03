@@ -1,12 +1,23 @@
-- unless ApplicationController.current_stage.nil?
-  .alert.alert-dismissable.alert-danger.text-center
-    %h4 WARNING!
-    According to
-    = link_to 'loadshedding.eskom.co.za', 'http://loadshedding.eskom.co.za'
-    = ", Cape Town is experiencing #{ApplicationController.current_stage_name} load shedding."
-- else
-  .alert.alert-dismissable.alert-success.text-center
-    %h4 GOOD NEWS!
-    According to
-    = link_to 'loadshedding.eskom.co.za', 'http://loadshedding.eskom.co.za'
-    = ", Cape Town IS NOT experiencing load shedding."
+- last_update = Update.last
+- unless last_update.nil?
+  - unless last_update.stage.nil?
+    .alert.alert-dismissable.alert-danger.text-center
+      %h4 WARNING!
+      According to
+      = succeed ", Cape Town is experiencing" do
+        = link_to 'Eskom', 'http://loadshedding.eskom.co.za'
+      %strong
+        = ApplicationController.convert_stage_code_to_name(last_update.stage)
+      = "load shedding."
+      %br
+      %small
+        = "(Last checked: #{time_ago_in_words(last_update.updated_at)} ago)"
+  - else
+    .alert.alert-dismissable.alert-success.text-center
+      %h4 GOOD NEWS!
+      According to
+      = succeed ", Cape Town IS NOT experiencing load shedding." do
+        = link_to 'Eskom', 'http://loadshedding.eskom.co.za'
+      %br
+      %small
+        = "(Last checked: #{time_ago_in_words(last_update.updated_at)} ago)"

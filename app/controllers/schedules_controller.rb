@@ -11,12 +11,7 @@ class SchedulesController < ApplicationController
     end
 
     @area = Area.find_by!(code: params[:area])
-    @schedules = [
-      Schedule.find_by(area: params[:area], day_of_month: @date.day, stage: 1),
-      Schedule.find_by(area: params[:area], day_of_month: @date.day, stage: 2),
-      Schedule.find_by(area: params[:area], day_of_month: @date.day, stage: 3),
-      Schedule.find_by(area: params[:area], day_of_month: @date.day, stage: 4),
-    ]
+    @schedules = Schedule.where(area: params[:area], day_of_month: @date.day, stage: [1,2,3,4])
     @current_stage = ApplicationController.current_stage
   end
 

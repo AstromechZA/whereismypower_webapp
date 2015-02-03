@@ -28,35 +28,13 @@
           %th.text-center
             Outtages
       %tbody
-        %tr{class: ('danger table-row-emph' if @current_stage == 1)}
-          %td.thin.text-bold
-            Stage 1
-            - if @current_stage == 1
-              (active)
-          %td.text-left
-            - unless @schedules[0].nil?
-              = @schedules[0].outtages
-        %tr{class: ('danger table-row-emph' if @current_stage == 2)}
-          %td.thin.text-bold
-            Stage 2
-            - if @current_stage == 2
-              (active)
-          %td.text-left
-            - unless @schedules[1].nil?
-              = @schedules[1].outtages
-        %tr{class: ('danger table-row-emph' if @current_stage == 3)}
-          %td.thin.text-bold
-            Stage 3A
-            - if @current_stage == 3
-              (active)
-          %td.text-left
-            - unless @schedules[2].nil?
-              = @schedules[2].outtages
-        %tr{class: ('danger table-row-emph' if @current_stage == 4)}
-          %td.thin.text-bold
-            Stage 3B
-            - if @current_stage == 4
-              (active)
-          %td.text-left
-            - unless @schedules[3].nil?
-              = @schedules[3].outtages
+        - (1..4).each do |stage_num|
+          - is_active = @current_stage == stage_num
+          %tr{class: ('danger table-row-emph' if is_active)}
+            %td.thin.text-bold
+              = ApplicationController.convert_stage_code_to_name stage_num
+              - if is_active
+                (active)
+            %td.text-left
+              - unless @schedules[stage_num - 1].nil?
+                = @schedules[stage_num - 1].outtages

@@ -14,9 +14,19 @@ class ApplicationController < ActionController::Base
     return u.nil? ? nil : u.stage
   end
 
-  def self.current_stage_name
-    u = Update.last
-    return u.nil? ? nil : Stage.find_by!(code: u.stage).name
+  def self.convert_stage_code_to_name(stage)
+    case stage
+    when 1
+      'Stage 1'
+    when 2
+      'Stage 2'
+    when 3
+      'Stage 3A'
+    when 4
+      'Stage 3B'
+    else
+      nil
+    end
   end
 
 end
