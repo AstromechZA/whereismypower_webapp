@@ -15,7 +15,7 @@
         - unless @latest_updates.empty?
           - @latest_updates.each do |update|
             %tr
-              %td= update.created_at
+              %td= update.updated_at
               %td= update.is_load_shedding_active ? 'Yes' : 'No'
               %td= update.stage or '-'
         - else
