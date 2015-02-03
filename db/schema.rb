@@ -13,50 +13,40 @@
 
 ActiveRecord::Schema.define(version: 20141123115038) do
 
-  create_table "area_schedules", force: true do |t|
-    t.integer  "schedule_id"
-    t.integer  "area_id"
-    t.string   "monday_outtages"
-    t.string   "tuesday_outtages"
-    t.string   "wednesday_outtages"
-    t.string   "thursday_outtages"
-    t.string   "friday_outtages"
-    t.string   "saturday_outtages"
-    t.string   "sunday_outtages"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "areas", force: true do |t|
+    t.integer  "code"
     t.string   "name"
     t.string   "long_name",  default: ""
-    t.integer  "region_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "region_updates", force: true do |t|
-    t.integer  "region_id"
-    t.boolean  "is_load_shedding_active"
-    t.string   "active_schedule_name"
-    t.integer  "active_schedule_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "regions", force: true do |t|
-    t.string   "name"
-    t.string   "long_name",          default: ""
-    t.boolean  "is_load_shedding",   default: false
-    t.integer  "active_schedule_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "areas", ["code"], name: "index_areas_on_code"
 
   create_table "schedules", force: true do |t|
+    t.integer  "stage"
+    t.integer  "area"
+    t.integer  "day_of_month"
+    t.string   "outtages"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "schedules", ["stage", "area", "day_of_month"], name: "schd_area_day_index", unique: true
+
+  create_table "stages", force: true do |t|
+    t.integer  "code"
     t.string   "name"
     t.string   "description"
-    t.integer  "region_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stages", ["code"], name: "index_stages_on_code"
+
+  create_table "updates", force: true do |t|
+    t.boolean  "is_load_shedding_active"
+    t.integer  "stage"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

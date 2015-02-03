@@ -1,0 +1,62 @@
+- title "Loadshedding #{@area.name}"
+
+.page-header
+  %h1
+    Schedules for
+    = link_to @area.name, pick_date_path(area: @area.code)
+    on
+    = @date.strftime '%A %e %B'
+    - if Date.today == @date
+      = "(today)"
+
+.row
+  .col-sm-12
+    = link_to show_path(area: @area, date: @date - 1), class: 'btn btn-secondary btn-sm pull-left' do
+      %span.glyphicon.glyphicon-chevron-left
+      = '  ' + (@date - 1).strftime('%e %B')
+    = link_to show_path(area: @area, date: @date + 1), class: 'btn btn-secondary btn-sm pull-right' do
+      = (@date + 1).strftime('%e %B') + ' '
+      %span.glyphicon.glyphicon-chevron-right
+
+.row
+  .col-md-6.col-md-offset-3.text-center
+    %table.table.table-bordered.table-striped
+      %thead
+        %tr
+          %th.text-center
+            Stage
+          %th.text-center
+            Outtages
+      %tbody
+        %tr{class: ('danger table-row-emph' if @current_stage == 1)}
+          %td.thin.text-bold
+            Stage 1
+            - if @current_stage == 1
+              (active)
+          %td.text-left
+            - unless @schedules[0].nil?
+              = @schedules[0].outtages
+        %tr{class: ('danger table-row-emph' if @current_stage == 2)}
+          %td.thin.text-bold
+            Stage 2
+            - if @current_stage == 2
+              (active)
+          %td.text-left
+            - unless @schedules[1].nil?
+              = @schedules[1].outtages
+        %tr{class: ('danger table-row-emph' if @current_stage == 3)}
+          %td.thin.text-bold
+            Stage 3A
+            - if @current_stage == 3
+              (active)
+          %td.text-left
+            - unless @schedules[2].nil?
+              = @schedules[2].outtages
+        %tr{class: ('danger table-row-emph' if @current_stage == 4)}
+          %td.thin.text-bold
+            Stage 3B
+            - if @current_stage == 4
+              (active)
+          %td.text-left
+            - unless @schedules[3].nil?
+              = @schedules[3].outtages

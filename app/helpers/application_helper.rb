@@ -18,13 +18,4 @@ module ApplicationHelper
     truncate(text, length: limit, separator: ' ')
   end
 
-  def simple_schedule_format(timestring)
-    times = timestring.gsub('-', ' - ').split('|')
-    return times.join(',  ')
-  end
-
-  def is_day(n)
-    return Date::DAYNAMES[Date.today.wday] == n
-  end
-
 end

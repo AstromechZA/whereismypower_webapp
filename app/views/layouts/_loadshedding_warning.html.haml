@@ -1,10 +1,12 @@
-- if region.is_load_shedding
+- unless ApplicationController.current_stage.nil?
   .alert.alert-dismissable.alert-danger.text-center
     %h4 WARNING!
-    = "#{region.name} is currently load shedding using schedule '#{region.active_schedule.name}'."
+    According to
+    = link_to 'loadshedding.eskom.co.za', 'http://loadshedding.eskom.co.za'
+    = ", Cape Town IS experiencing #{ApplicationController.current_stage_name} load shedding."
 - else
   .alert.alert-dismissable.alert-success.text-center
     %h4 GOOD NEWS!
     According to
     = link_to 'loadshedding.eskom.co.za', 'http://loadshedding.eskom.co.za'
-    = ", #{region.name} is not experiencing load shedding."
+    = ", Cape Town IS NOT experiencing load shedding."

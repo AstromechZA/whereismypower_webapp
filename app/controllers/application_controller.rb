@@ -9,4 +9,14 @@ class ApplicationController < ActionController::Base
     render 'error_pages/not_found'
   end
 
+  def self.current_stage
+    u = Update.last
+    return u.nil? ? nil : u.stage
+  end
+
+  def self.current_stage_name
+    u = Update.last
+    return u.nil? ? nil : Stage.find_by!(code: u.stage).name
+  end
+
 end

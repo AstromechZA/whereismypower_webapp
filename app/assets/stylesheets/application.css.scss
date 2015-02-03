@@ -47,15 +47,18 @@ html, body {
   padding-bottom: 50px;
 }
 
-
-
-.table-row-emph {
+.table-row-emph, .table-col-emph {
     font-weight: bold;
 }
 
-
-
 tr[data-link] {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+td[data-link] {
   cursor: pointer;
   &:hover {
     text-decoration: underline;
@@ -89,4 +92,74 @@ table {
             }
         }
     }
+
+    td.greyed-out {
+      color: #ddd;
+      a {
+        color: #ddd;
+        &:hover {
+            color: #ddd;
+        }
+        &:visited {
+            color: #ddd;
+        }
+      }
+    }
+    td.today {
+      background-color: #DFF0D8;
+      font-weight: bold;
+    }
+    td.weekend {
+      background-color: #f5f5f5;
+    }
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.btn-secondary {
+  color: #d9230f;
+  background-color: #ffffff;
+  border-color: #d9230f;
+}
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary.focus,
+.btn-secondary:active,
+.btn-secondary.active,
+.open > .dropdown-toggle.btn-secondary {
+  color: #a91b0c;
+  background-color: #ffffff;
+  border-color: #a01a0b;
+}
+.btn-secondary:active,
+.btn-secondary.active,
+.open > .dropdown-toggle.btn-secondary {
+  background-image: none;
+}
+.btn-secondary.disabled,
+.btn-secondary[disabled],
+fieldset[disabled] .btn-secondary,
+.btn-secondary.disabled:hover,
+.btn-secondary[disabled]:hover,
+fieldset[disabled] .btn-secondary:hover,
+.btn-secondary.disabled:focus,
+.btn-secondary[disabled]:focus,
+fieldset[disabled] .btn-secondary:focus,
+.btn-secondary.disabled.focus,
+.btn-secondary[disabled].focus,
+fieldset[disabled] .btn-secondary.focus,
+.btn-secondary.disabled:active,
+.btn-secondary[disabled]:active,
+fieldset[disabled] .btn-secondary:active,
+.btn-secondary.disabled.active,
+.btn-secondary[disabled].active,
+fieldset[disabled] .btn-secondary.active {
+  background-color: #ffffff;
+  border-color: #d9230f;
+}
+.btn-secondary .badge {
+  color: #ffffff;
+  background-color: #d9230f;
 }

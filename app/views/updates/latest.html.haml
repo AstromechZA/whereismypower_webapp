@@ -1,0 +1,24 @@
+- title 'Latest Updates'
+
+.page-header
+  %h1 Latest Updates
+
+.row
+  .col-md-6.col-md-offset-3
+    %table.table.table-bordered.table-condensed
+      %thead
+        %tr
+          %th Time
+          %th Load Shedding
+          %th Stage
+      %tbody
+        - unless @latest_updates.empty?
+          - @latest_updates.each do |update|
+            %tr
+              %td= update.created_at
+              %td= update.is_load_shedding_active ? 'Yes' : 'No'
+              %td= update.stage or '-'
+        - else
+          %tr
+            %td.text-center{colspan: 4}
+              %h4 No Updates have been performed yet :(

@@ -1,0 +1,32 @@
+- title "Cape Town Loadshedding Areas"
+
+//= render partial: 'layouts/loadshedding_warning', locals: {region: @region}
+
+.page-header
+  %h1
+    Cape Town Loadshedding Areas
+
+.row
+  .col-md-8.col-md-offset-2.text-center
+    %h3 Select your area
+    %table.table.table-bordered.table-striped.table-hover.text-left
+      %thead
+        %tr
+          %th Area Name
+          %th Approximate Locations
+      %tbody
+        - @areas.each do |area|
+          %tr{data: {link: pick_date_path(area: area)}}
+            %td
+              %a{href: pick_date_path(area: area)}
+                = area.name
+            %td
+              - unless area.long_name.blank?
+                %a{href: pick_date_path(area: area)}
+                  = text_truncate(area.long_name)
+
+    %h4
+      Not quite sure which area you're in? Check
+      = link_to 'the map', map_path
+      = '...'
+

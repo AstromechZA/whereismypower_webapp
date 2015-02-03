@@ -1,0 +1,45 @@
+- start_date = anchor_date.change day: 1
+- days_in_month = ((start_date >> 1) - start_date).to_i
+- nths = [nil] * (start_date.cwday % 7) + (1..days_in_month).to_a
+- weeks = nths.in_groups_of(7)
+
+%table.table.table-bordered
+  %thead
+    %tr
+      %th.text-center{colspan: 7}
+        = start_date.strftime '%B %Y'
+    %tr
+      %th.text-center
+        Sun
+      %th.text-center
+        Mon
+      %th.text-center
+        Tue
+      %th.text-center
+        Wed
+      %th.text-center
+        Thu
+      %th.text-center
+        Fri
+      %th.text-center
+        Sat
+  %tbody
+    - weeks.each do |week|
+      %tr
+        - week.each do |item|
+          - unless item.nil?
+            - this_day = start_date.change(day: item)
+            - in_the_past = (this_day < Date.today)
+            - is_today = (this_day == Date.today)
+            - is_weekend = (this_day.cwday > 5)
+
+            - classnames = (is_weekend ? 'weekend' : '')
+            - if in_the_past
+              - classnames += ' greyed-out'
+            - elsif is_today
+              - classnames = 'today'
+
+            %td{class: classnames, data: {link: show_path(area: area, date: this_day)}}
+              = link_to item, show_path(area: area, date: this_day)
+          - else
+            %td

@@ -1,0 +1,22 @@
+- title "Cape Town | #{@area.name}"
+
+
+
+.page-header
+  %h1
+    = link_to 'Cape Town', areas_path
+    |
+    = @area.name
+  - unless @area.long_name.blank?
+    %h3= @area.long_name
+
+.row
+  .col-md-6.col-md-offset-3.text-center
+    %p
+      The new load shedding schedules implemented from February 2015 are dependent on the day of the month.
+      To see the schedule for your area, pick the day of the month below:
+    %br
+    %p
+      (The day highlighted in green is today's date)
+    = render 'layouts/calendar_month_for_area', anchor_date: Date.today, area: @area.code
+    = render 'layouts/calendar_month_for_area', anchor_date: Date.today >> 1, area: @area.code

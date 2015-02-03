@@ -1,6 +1,4 @@
 class Schedule < ActiveRecord::Base
-  belongs_to :region
-  has_many :area_schedules
-
-  validates_presence_of :region
+  validates_presence_of :area
+  validates_presence_of :stage
 end
