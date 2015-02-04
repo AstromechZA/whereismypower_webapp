@@ -27,22 +27,12 @@ ActiveRecord::Schema.define(version: 20141123115038) do
     t.integer  "stage"
     t.integer  "area"
     t.integer  "day_of_month"
-    t.string   "outtages"
+    t.string   "outages"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "schedules", ["stage", "area", "day_of_month"], name: "schd_area_day_index", unique: true
-
-  create_table "stages", force: true do |t|
-    t.integer  "code"
-    t.string   "name"
-    t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "stages", ["code"], name: "index_stages_on_code"
 
   create_table "updates", force: true do |t|
     t.boolean  "is_load_shedding_active"

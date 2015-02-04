@@ -54,7 +54,7 @@ end
                 stage: stage,
                 area: area,
                 day_of_month: day,
-                outtages: times_per_day_per_stage(area, day, stage).join(', ')
+                outages: times_per_day_per_stage(area, day, stage).join(', ')
             )
         end
     end

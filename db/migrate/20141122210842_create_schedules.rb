@@ -5,7 +5,7 @@ class CreateSchedules < ActiveRecord::Migration
       t.integer :area
       t.integer :day_of_month
 
-      t.string :outtages
+      t.string :outages
 
       t.timestamps
     end

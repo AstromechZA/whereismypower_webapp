@@ -79,7 +79,7 @@ class ApiController < ApplicationController
       render json: {error: "Schedule not found"}, status: 404, :callback => params['callback']
       return
     else
-      render json: {outtages: r.outtages, area_id: r.area, stage: r.stage, date: date, day_of_month: date.day}, :callback => params['callback']
+      render json: {outages: r.outages, area_id: r.area, stage: r.stage, date: date, day_of_month: date.day}, :callback => params['callback']
       return
     end
   end
