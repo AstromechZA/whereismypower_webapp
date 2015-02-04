@@ -17,10 +17,12 @@
     %li
       <code>timestamp</code> is the ISO8601 (UTC) timestamp of when that status was recorded.
 
-%h5 Example Request
+%h4
+  Example Request
+  = link_to 'run', api_get_status_path, class: 'btn btn-secondary btn-xs'
 %pre
   curl "http://whereismypower.co.za/api/get_status"
-%h5 Example Response
+%h4 Example Response
 %pre
   {"active_stage":2,"timestamp":"2015-02-03T23:01:55.201Z"}
 
@@ -40,10 +42,13 @@
     %li
       <code>description</code> is a line describing the suburbs included in this area.
 
-%h5 Example Request
+
+%h4
+  Example Request
+  = link_to 'run', api_list_areas_path, class: 'btn btn-secondary btn-xs'
 %pre
   curl "http://whereismypower.co.za/api/list_areas"
-%h5 Example Response
+%h4 Example Response
 %pre
   [{"area_id":1,"name":"Area 1","description":"Bellville"},{"area_id":2,"name":"Area 2","description":"Maitland, Milnerton"}, ... ,{"area_id":16,"name":"Area 16","description":"Retreat, Philippi"}]
 
@@ -80,10 +85,12 @@
     %li
       <code>day_of_month</code> raw day of the month value.
 
-%h5 Example Request
+%h4
+  Example Request
+  = link_to 'run', api_get_schedule_path(area: 11, date: '2014-05-05', stage: '3B'), class: 'btn btn-secondary btn-xs'
 %pre
   curl "http://whereismypower.co.za/api/get_schedule?area=11&date=2014-05-05&stage=3B"
-%h5 Example Response
+%h4 Example Response
 %pre
   {"outtages":"02:00 - 04:30, 10:00 - 12:30, 18:00 - 20:30","area_id":11,"stage":4,"date":"2014-05-05","day_of_month":5}
 
