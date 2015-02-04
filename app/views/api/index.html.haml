@@ -1,0 +1,108 @@
+- title "API"
+
+.page-header
+  %h1
+    API
+
+%h2
+  1.
+  %code /api/get_status
+%p
+  Retrieve the last known status of Eskom's load shedding.
+%p
+  The resulting object contains 2 fields: <code>active_stage</code> and <code>timestamp</code>.
+  %ul
+    %li
+      <code>active_stage</code> is either an integer 1, 2, 3 or 4 or <code>null</code> indicating that no load shedding is taking place.
+    %li
+      <code>timestamp</code> is the ISO8601 (UTC) timestamp of when that status was recorded.
+
+%h5 Example Request
+%pre
+  curl "http://whereismypower.co.za/api/get_status"
+%h5 Example Response
+%pre
+  {"active_stage":2,"timestamp":"2015-02-03T23:01:55.201Z"}
+
+%br
+%h2
+  2.
+  %code /api/list_areas
+%p
+  Retrieve the list of loadshedding areas in Cape Town.
+%p
+  The resulting object is an array of 16 areas. Each area contains 3 fields: <code>area_id</code>, <code>name</code> and <code>description</code>.
+  %ul
+    %li
+      <code>area_id</code> is the area number. From 1 to 16.
+    %li
+      <code>name</code> is the short area name such as 'Area 1', 'Area 5' etc.
+    %li
+      <code>description</code> is a line describing the suburbs included in this area.
+
+%h5 Example Request
+%pre
+  curl "http://whereismypower.co.za/api/list_areas"
+%h5 Example Response
+%pre
+  [{"area_id":1,"name":"Area 1","description":"Bellville"},{"area_id":2,"name":"Area 2","description":"Maitland, Milnerton"}, ... ,{"area_id":16,"name":"Area 16","description":"Retreat, Philippi"}]
+
+
+%br
+%h2
+  3.
+  %code /api/get_schedule
+%p
+  Retrieve a specific loadshedding schedule for an area on any given day under some stage.
+%p
+  This request expects exactly 3 parameters: <code>area</code>, <code>date</code> and <code>stage</code>
+  %ul
+    %li
+      <code>area</code> is the area number. From 1 to 16.
+    %li
+      <code>date</code> is the date. Preferably in YEAR-MONTH-DAY format.
+      <code>'today'</code> and <code>'tomorrow'</code> can also be used.
+    %li
+      <code>stage</code> is the loadshedding stage. Preferably a number 1, 2, 3 or 4. <code>3A</code> is equivalent to 3. <code>3B</code> is equivalent to 4.
+
+%p
+  The resulting object contains 2 fields: <code>active_stage</code> and <code>timestamp</code>.
+  %ul
+    %li
+      <code>outtages</code> is a string containing the outtages. The string contains a number of time ranges each separated by a comma.
+      This can be reliably split on <code>', '</code> and <code>' - '</code> if data needs to be extracted.
+    %li
+      <code>area_id</code> confirmation of the area number requested.
+    %li
+      <code>stage</code> confirmation of the stage requested.
+    %li
+      <code>date</code> confirmation of the date requested.
+    %li
+      <code>day_of_month</code> raw day of the month value.
+
+%h5 Example Request
+%pre
+  curl "http://whereismypower.co.za/api/get_schedule?area=11&date=2014-05-05&stage=3B"
+%h5 Example Response
+%pre
+  {"outtages":"02:00 - 04:30, 10:00 - 12:30, 18:00 - 20:30","area_id":11,"stage":4,"date":"2014-05-05","day_of_month":5}
+
+%br
+%h2
+  Note: Javascript callbacks (JSONP)
+%p
+  All 3 API calls accept an additional <code>callback</code> parameter which returns the result wrapped in the given Javascript function.
+%p
+  This can be used in Javascript to execute a function when the response is returned.
+
+%h4 Example
+:plain
+  <pre>
+  function eskom_status_callback(data) {
+    alert(data.active_stage);
+  }
+
+  var script = document.createElement('script');
+  script.src = "http://whereismypower.co.za/api/get_status?callback=eskom_status_callback"
+  document.body.appendChild(script)
+  </pre>
