@@ -61,7 +61,7 @@ class UpdatesController < ApplicationController
         source: source_msg)
     else
       last_update.source = source_msg
-      last_update.save!
+      last_update.touch
     end
 
     redirect_to latest_updates_path, notice: "LoadShedding Status: #{ApplicationController.convert_stage_code_to_name(active_stage)} Updated: #{last_update.updated_at}"
