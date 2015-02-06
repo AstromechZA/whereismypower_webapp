@@ -40,6 +40,10 @@ class UpdatesController < ApplicationController
           return 4
         end
       end
+      if /LOADSHEDDING HAS BEEN SUSPENDED UNTIL FURTHER NOTICE/i =~ e.text
+        puts "Capetown says not currently load shedding"
+        return nil
+      end
     end
     nil
   end
