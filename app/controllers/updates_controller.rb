@@ -3,6 +3,7 @@ require 'nokogiri'
 require 'open-uri'
 
 class UpdatesController < ApplicationController
+  newrelic_ignore only: [:recheck]
 
   def latest
     @latest_updates = Update.order(updated_at: :desc).limit(20)
