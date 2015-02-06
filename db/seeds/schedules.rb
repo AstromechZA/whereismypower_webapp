@@ -48,14 +48,16 @@ def times_per_day_per_stage(area, day, stage)
 end
 
 (1..16).each do | area |
-    (1..4).each do | stage |
-        (1..31).each do | day |
-            Schedule.create!(
-                stage: stage,
-                area: area,
-                day_of_month: day,
-                outages: times_per_day_per_stage(area, day, stage).join(', ')
-            )
+    ActiveRecord::Base.transaction do
+        (1..4).each do | stage |
+            (1..31).each do | day |
+                Schedule.create!(
+                    stage: stage,
+                    area: area,
+                    day_of_month: day,
+                    outages: times_per_day_per_stage(area, day, stage).join(', ')
+                )
+            end
         end
     end
 end
