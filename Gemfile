@@ -25,6 +25,8 @@ gem 'jquery-rails', '~> 3.1.2'
 
 gem 'nokogiri', '~> 1.6.5'
 
+gem 'newrelic_rpm'
+
 # gems for unittests
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0' # Rspec runs our unit tests
