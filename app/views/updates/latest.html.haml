@@ -4,21 +4,27 @@
   %h1 Latest Updates
 
 .row
-  .col-md-6.col-md-offset-3
+  .col-md-8.col-md-offset-2
     %table.table.table-bordered.table-condensed
       %thead
         %tr
-          %th Time
+          %th Change Occurred
+          %th Last Check
           %th Load Shedding
+          %th Elapsed
           %th Stage
+          %th Source
       %tbody
         - unless @latest_updates.empty?
           - @latest_updates.each do |update|
             %tr
+              %td= update.created_at
               %td= update.updated_at
               %td= update.is_load_shedding_active ? 'Yes' : 'No'
+              %td= "%.2f Hours" % ((update.updated_at - update.created_at) / 3600)
               %td= update.stage or '-'
+              %td= update.source or '-'
         - else
           %tr
-            %td.text-center{colspan: 4}
-              %h4 No Updates have been performed yet :(
+            %td.text-center{colspan: 7}
+              %h5 No Updates have been performed yet :(

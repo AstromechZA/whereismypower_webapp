@@ -5,7 +5,10 @@
       %h4 WARNING!
       According to
       = succeed ", Cape Town is experiencing" do
-        = link_to 'Eskom', 'http://loadshedding.eskom.co.za'
+        - if last_update.source == 'eskom.co.za'
+          = link_to 'Eskom', 'http://loadshedding.eskom.co.za'
+        - else
+          = link_to 'Cape Town Gov', 'http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'
       %strong
         = ApplicationController.convert_stage_code_to_name(last_update.stage)
       = "load shedding."
@@ -17,7 +20,10 @@
       %h4 GOOD NEWS!
       According to
       = succeed ", Cape Town IS NOT experiencing load shedding." do
-        = link_to 'Eskom', 'http://loadshedding.eskom.co.za'
+        - if last_update.source == 'eskom.co.za'
+          = link_to 'Eskom', 'http://loadshedding.eskom.co.za'
+        - else
+          = link_to 'Cape Town Gov', 'http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'
       %br
       %small
         = "(Last checked: #{time_ago_in_words(last_update.updated_at)} ago)"
