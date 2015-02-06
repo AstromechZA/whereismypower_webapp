@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   get '/api/get_schedule', to: 'api#get_schedule', as: 'api_get_schedule', defaults: { format: :json }
   get '/api/get_status', to: 'api#get_status', as: 'api_get_status', defaults: { format: :json }
 
+  # legacy routes
+   get '/regions/:x', to: redirect('/areas')
+
   get '*unmatched_route', to: 'application#not_found'
 
 end
