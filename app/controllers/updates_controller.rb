@@ -15,7 +15,7 @@ class UpdatesController < ApplicationController
     puts "Eskom API returned #{r}"
     case r
     when 1
-      return nil
+      return 0
     when 2..5
       return r - 1
     else
@@ -42,7 +42,7 @@ class UpdatesController < ApplicationController
       end
       if /LOADSHEDDING HAS BEEN SUSPENDED UNTIL FURTHER NOTICE/i =~ e.text
         puts "Capetown says not currently load shedding"
-        return nil
+        return 0
       end
     end
     nil
@@ -57,6 +57,7 @@ class UpdatesController < ApplicationController
       active_stage = get_eskom_status()
     end
 
+    active_stage = nil if active_stage == 0
     last_update = Update.last
     if last_update.nil? or last_update.stage != active_stage
       last_update = Update.create(
