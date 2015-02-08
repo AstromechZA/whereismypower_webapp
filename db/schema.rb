@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150208163728) do
+ActiveRecord::Schema.define(version: 20150208190549) do
 
   create_table "areas", force: true do |t|
     t.integer  "code"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20150208163728) do
     t.boolean "is_load_shedding2"
     t.boolean "is_load_shedding3"
     t.boolean "is_load_shedding4"
+    t.integer "month_order"
   end
 
   create_table "schedules", force: true do |t|
