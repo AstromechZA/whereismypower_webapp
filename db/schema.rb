@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150206192855) do
+ActiveRecord::Schema.define(version: 20150208163728) do
 
   create_table "areas", force: true do |t|
     t.integer  "code"
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 20150206192855) do
   end
 
   add_index "areas", ["code"], name: "index_areas_on_code"
+
+  create_table "loadshedding_periods", force: true do |t|
+    t.integer "area"
+    t.integer "day_of_month"
+    t.integer "period"
+    t.boolean "is_load_shedding1"
+    t.boolean "is_load_shedding2"
+    t.boolean "is_load_shedding3"
+    t.boolean "is_load_shedding4"
+  end
 
   create_table "schedules", force: true do |t|
     t.integer  "stage"
