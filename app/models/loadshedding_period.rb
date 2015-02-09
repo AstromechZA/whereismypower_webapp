@@ -66,7 +66,7 @@ class LoadsheddingPeriod < ActiveRecord::Base
       areas_loadshedding |= self.where(day_of_month: day_of_month, period: period_ext, self.ls_column(stage) => true).map(&:area)
     end
 
-    return areas_loadshedding.sort
+    return areas_loadshedding.sort.uniq
   end
 
   def self.is_area_shedding?(area, stage, datetime=nil)
