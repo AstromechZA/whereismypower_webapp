@@ -6,7 +6,10 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   def not_found
-    render 'error_pages/not_found'
+    respond_to do |format|
+      format.html { render 'error_pages/not_found', status: 404 }
+      format.all { render nothing: true, status: 404 }
+    end
   end
 
   def self.current_stage
