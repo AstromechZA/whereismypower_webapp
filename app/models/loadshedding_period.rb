@@ -42,6 +42,10 @@ class LoadsheddingPeriod < ActiveRecord::Base
   end
 
   def self.areas_shedding(stage, datetime=nil)
+    if stage.nil?
+      return []
+    end
+
     # if datetime was not provided, set to now
     datetime ||= Time.now
     # calculate time constants
@@ -70,6 +74,10 @@ class LoadsheddingPeriod < ActiveRecord::Base
   end
 
   def self.is_area_shedding?(area, stage, datetime=nil)
+    if stage.nil?
+      return false
+    end
+
     # if datetime was not provided, set to now
     datetime ||= Time.now
     # calculate time constants
@@ -105,6 +113,10 @@ class LoadsheddingPeriod < ActiveRecord::Base
   end
 
   def self.next_loadshed_time(area, stage, datetime=nil)
+    if stage.nil?
+      return nil
+    end
+
     # if datetime was not provided, set to now
     datetime ||= Time.now
     period_main = (datetime.hour * 60 + datetime.min) / 120
