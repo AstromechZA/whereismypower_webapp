@@ -112,6 +112,12 @@ table {
     td.weekend {
       background-color: #f5f5f5;
     }
+    td.today-row {
+      background-color: #dff0d8;
+    }
+    td.month_cell_active {
+      background-color: #f2dede;
+    }
 }
 
 .text-bold {

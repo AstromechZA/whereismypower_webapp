@@ -1,20 +1,23 @@
 - title "Loadshedding #{@area.name}"
+- is_today = (Date.today == @date)
 
 .page-header
   %h1
     Schedules for
-    = link_to @area.name, pick_date_path(area: @area.code)
+    = link_to @area.name, show_schedule_path(area: @area.code)
     on
     = @date.strftime '%A %e %B'
-    - if Date.today == @date
-      = "(today)"
+    - if is_today
+      (today)
+    - unless @area.long_name.blank?
+      %h3= @area.long_name
 
 .row
   .col-sm-12
-    = link_to show_path(area: @area, date: @date - 1), class: 'btn btn-secondary btn-sm pull-left' do
+    = link_to show_schedule_path(area: @area, date: @date - 1), class: 'btn btn-secondary btn-sm pull-left' do
       %span.glyphicon.glyphicon-chevron-left
       = '  ' + (@date - 1).strftime('%e %B')
-    = link_to show_path(area: @area, date: @date + 1), class: 'btn btn-secondary btn-sm pull-right' do
+    = link_to show_schedule_path(area: @area, date: @date + 1), class: 'btn btn-secondary btn-sm pull-right' do
       = (@date + 1).strftime('%e %B') + ' '
       %span.glyphicon.glyphicon-chevron-right
 
@@ -24,17 +27,51 @@
       %thead
         %tr
           %th.text-center
-            Stage
-          %th.text-center
-            Outages
-      %tbody
-        - (1..4).each do |stage_num|
-          - is_active = @current_stage == stage_num
-          %tr{class: ('danger table-row-emph' if is_active)}
-            %td.thin.text-bold
-              = ApplicationController.convert_stage_code_to_name stage_num
-              - if is_active
+            Time Slot
+          - (1..4).each do |stage|
+            %th.text-center{class: ('danger' if (is_today and (@current_stage == stage)))}
+              = ApplicationController.convert_stage_code_to_name stage
+              - if is_today and @current_stage == stage
+                %br
                 (active)
-            %td.text-left
-              - unless @schedules[stage_num - 1].nil?
-                = @schedules[stage_num - 1].outages
+
+      %tbody
+        - (0..11).each do |period|
+          - is_now = (is_today and (Time.now.hour * 60 + Time.now.min).between?(period * 120, period * 120 + 150))
+          %tr
+            %td.thin.text-bold{class: ('today-row' if is_now)}
+              - if is_now
+                %span.glyphicon.glyphicon-play
+              = "%02d:00 - %02d:30" % [period*2, (period*2 + 2) % 24]
+
+            - (0..3).each do |stage|
+              - is_current_stage = (@current_stage == (stage+1))
+              - is_shedding = @schedules[stage][period]
+
+              - if is_shedding
+                - classname = 'active'
+
+              - if is_today
+                - if is_current_stage and is_shedding
+                  - classname = 'danger'
+                - elsif is_current_stage
+                  - classname = 'warning'
+
+              - if is_shedding
+                %td{class: classname}
+                  %span.glyphicon.glyphicon-warning-sign
+              - else
+                %td{class: classname}
+
+    %span.glyphicon.glyphicon-warning-sign
+    indicates loadshedding
+
+    - if is_today
+      %br
+      %span.glyphicon.glyphicon-play
+      indicates current time
+
+.row
+  .col-sm-12
+    = link_to show_month_schedule_path(area: @area), class: 'btn btn-secondary btn-sm pull-right' do
+      See monthly schedule

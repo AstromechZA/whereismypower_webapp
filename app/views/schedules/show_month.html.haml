@@ -1,0 +1,40 @@
+.page-header
+  %h1
+    Monthly schedules for
+    = link_to @area.name, show_schedule_path(area: @area.code)
+    - unless @area.long_name.blank?
+      %h3= @area.long_name
+
+.unprintable.text-center
+  %p
+    These pages print well. Print them so that you can refer to them even when you don't have power.
+  = link_to '#', onclick: 'window.print();return false;', class: 'btn btn-secondary btn-sm' do
+    %span.glyphicon.glyphicon-print
+    Print
+
+- (1..4).each do |stage|
+  %h1= ApplicationController.convert_stage_code_to_name stage
+  %table.table.table-bordered.table-condensed.table-striped.text-center
+    %thead
+      %th.text-center Time Slot
+      - (1..16).each do |d|
+        %th.text-center
+          = d.ordinalize
+          %br
+          - if d < 16
+            = (16 + d).ordinalize
+          - else
+            &nbsp;
+    %tbody
+      - @periods_groups.each do |period, v|
+        %tr
+          %td.text-bold
+            = "%02d:00 - %02d:30" % [period*2, (period*2 + 2) % 24]
+          -  v.each do |slot|
+            - if slot.is_load_shedding? stage
+              %td.month_cell_active
+                %span.glyphicon.glyphicon-warning-sign
+            - else
+              %td
+
+  .page-break

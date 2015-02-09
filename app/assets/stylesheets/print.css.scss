@@ -1,0 +1,28 @@
+@media all {
+    .page-break { display: none; }
+}
+
+@media print {
+
+    .alert {
+        display: none;
+    }
+
+    .page-break {
+        display: block;
+        page-break-before: always;
+    }
+
+    .unprintable {
+        display: none;
+    }
+
+    a:link:after, #content a:visited:after {
+      content: "";
+    }
+
+    td.month_cell_active {
+        background-color: #f2dede !important;
+        -webkit-print-color-adjust: exact;
+    }
+}

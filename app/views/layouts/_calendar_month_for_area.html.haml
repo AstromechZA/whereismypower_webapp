@@ -39,7 +39,7 @@
             - elsif is_today
               - classnames = 'today'
 
-            %td{class: classnames, data: {link: show_path(area: area, date: this_day)}}
-              = link_to item, show_path(area: area, date: this_day)
+            %td{class: classnames, data: {link: show_schedule_path(area: area, date: this_day)}}
+              = link_to item, show_schedule_path(area: area, date: this_day)
           - else
             %td

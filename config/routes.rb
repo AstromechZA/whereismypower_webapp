@@ -2,10 +2,11 @@ Rails.application.routes.draw do
 
   root to: 'areas#index'
 
-  get '/areas', to: 'areas#index', as: 'areas'
+  get '/areas', to: 'areas#index', as: 'list_areas'
 
-  get '/schedules', to: 'schedules#show', as: 'show'
+  get '/schedules', to: 'schedules#show', as: 'show_schedule'
   get '/schedules/pick_date', to: 'schedules#pick_date', as: 'pick_date'
+  get '/month_schedules', to: 'schedules#show_month', as: 'show_month_schedule'
 
   get '/updates/recheck', to: 'updates#recheck', as: 'recheck'
   get '/updates/latest', to: 'updates#latest', as: 'latest_updates'
@@ -20,7 +21,7 @@ Rails.application.routes.draw do
   get '/api/get_status', to: 'api#get_status', as: 'api_get_status', defaults: { format: :json }
 
   # legacy routes
-   get '/regions/:x', to: redirect('/areas')
+  get '/regions/:x', to: redirect('/areas')
 
   get '*unmatched_route', to: 'application#not_found'
 
