@@ -28,8 +28,12 @@ class UpdatesController < ApplicationController
     puts "Scraping capetown.gov.za for load shedding status"
     nhtml = Nokogiri::HTML(open('http://www.capetown.gov.za/loadshedding/Loadshedding.html'))
     nhtml.css('.mainContainer .alertbox').each do |e|
-      if (e.include? 'style') and (e['style'].include? 'display:block')
-        m = /CURRENTLY EXPERIENCING[a-z\s]+ STAGE\s?([123][AB]?)/i.match(e.text)
+      puts e.inspect
+      puts e.text.inspect
+      if (e.has_attribute? 'style') and (e['style'].include? 'display:block')
+        m = /CURRENTLY EXPERIENCING[a-z\s]+? STAGE\s?([123][AB]?)/i.match(e.text)
+        puts 'Got match'
+        puts m.inspect
         unless m.nil?
           case m[1].upcase
           when '1'
@@ -46,6 +50,7 @@ class UpdatesController < ApplicationController
           puts "Capetown says not currently load shedding"
           return 0
         end
+        return nil
       end
     end
     nil
@@ -75,6 +80,7 @@ class UpdatesController < ApplicationController
     else
       last_update.source = source_msg
       last_update.touch
+      last_update.save!
     end
 
     redirect_to latest_updates_path, notice: "LoadShedding Status: #{ApplicationController.convert_stage_code_to_name(active_stage)} Updated: #{last_update.updated_at}"
