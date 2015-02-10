@@ -24,7 +24,7 @@
   curl "http://whereismypower.co.za/api/get_status"
 %h4 Example Response
 %pre
-  {"active_stage":2,"timestamp":"2015-02-03T23:01:55.201Z"}
+  {"active_stage": 2, "timestamp": "2015-02-03T23:01:55.201Z"}
 
 %br
 %h2
@@ -50,7 +50,7 @@
   curl "http://whereismypower.co.za/api/list_areas"
 %h4 Example Response
 %pre
-  [{"area_id":1,"name":"Area 1","description":"Bellville"},{"area_id":2,"name":"Area 2","description":"Maitland, Milnerton"}, ... ,{"area_id":16,"name":"Area 16","description":"Retreat, Philippi"}]
+  [{"area_id": 1, "name": "Area 1", "description": "Bellville"},{"area_id": 2, "name": "Area 2", "description": "Maitland, Milnerton"}, ... , {"area_id": 16, "name": "Area 16", "description": "Retreat, Philippi"}]
 
 
 %br
@@ -74,7 +74,7 @@
   The resulting object contains 5 fields: <code>outages</code>, <code>area_id</code>, <code>stage</code>, <code>date</code> and <code>day_of_month</code>.
   %ul
     %li
-      <code>outages</code> is a string containing the outages. The string contains a number of time ranges each separated by a comma.
+      <code>outages</code> is an array containing the outages. The array contains a number of time ranges of the form <code>'0X:00 - 0Y:30'</code>.
       This can be reliably split on <code>', '</code> and <code>' - '</code> if data needs to be extracted.
     %li
       <code>area_id</code> confirmation of the area number requested.
@@ -92,7 +92,7 @@
   curl "http://whereismypower.co.za/api/get_schedule?area=11&date=2014-05-05&stage=3B"
 %h4 Example Response
 %pre
-  {"outages":"02:00 - 04:30, 10:00 - 12:30, 18:00 - 20:30","area_id":11,"stage":4,"date":"2014-05-05","day_of_month":5}
+  {"outages": ["02:00 - 04:30", "10:00 - 12:30", "18:00 - 20:30"], "area_id": 11, "stage": 4,"date": "2014-05-05", "day_of_month": 5}
 
 %br
 %h2
