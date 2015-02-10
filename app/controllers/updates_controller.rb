@@ -26,33 +26,31 @@ class UpdatesController < ApplicationController
 
   def get_cptgov_status
     puts "Scraping capetown.gov.za for load shedding status"
-    nhtml = Nokogiri::HTML(open('http://www.capetown.gov.za/loadshedding/Loadshedding.html'))
-    nhtml.css('.mainContainer .alertbox').each do |e|
+    nhtml = Nokogiri::HTML(open('http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'))
+    nhtml.css('div.CityArticleText td.CityArticleTitle').each do |e|
       puts e.inspect
-      puts e.text.inspect
-      if (e.has_attribute? 'style') and (e['style'].include? 'display:block')
-        m = /CURRENTLY EXPERIENCING[a-z\s]+? STAGE\s?([123][AB]?)/i.match(e.text)
-        puts 'Got match'
-        puts m.inspect
-        unless m.nil?
-          case m[1].upcase
-          when '1'
-            return 1
-          when '2'
-            return 2
-          when '3A'
-            return 3
-          when '3B'
-            return 4
-          end
+      m = /CURRENTLY EXPERIENCING[a-z\s]+? STAGE\s?([123][AB]?)/i.match(e.text)
+      puts 'Got match'
+      unless m.nil?
+        case m[1].upcase
+        when '1'
+          return 1
+        when '2'
+          return 2
+        when '3A'
+          return 3
+        when '3B'
+          return 4
         end
-        if /LOADSHEDDING HAS BEEN SUSPENDED UNTIL FURTHER NOTICE/i =~ e.text
-          puts "Capetown says not currently load shedding"
-          return 0
-        end
-        return nil
       end
+      if /LOADSHEDDING HAS BEEN SUSPENDED UNTIL FURTHER NOTICE/i =~ e.text
+        puts "Capetown says not currently load shedding"
+        return 0
+      end
+      puts "No Match"
+      return nil
     end
+    puts "No Elements match search"
     nil
   end
 
