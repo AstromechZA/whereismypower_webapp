@@ -21,8 +21,7 @@
               %td= update.created_at
               %td= update.updated_at
               %td= update.is_load_shedding_active ? 'Yes' : 'No'
-              - from_time = Time.now - (update.updated_at - update.created_at)
-              %td= time_ago_in_words(from_time)
+              %td= time_ago_in_words(Time.now - (update.updated_at - update.created_at))
               %td= update.stage or '-'
               %td= update.source or '-'
         - else

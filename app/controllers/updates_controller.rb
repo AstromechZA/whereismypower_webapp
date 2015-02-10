@@ -26,24 +26,28 @@ class UpdatesController < ApplicationController
 
   def get_cptgov_status
     puts "Scraping capetown.gov.za for load shedding status"
-    nhtml = Nokogiri::HTML(open('http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'))
-    nhtml.css('table tr td .CityArticleTitle').each do |e|
-      m = /CURRENTLY EXPERIENCING[a-z\s]+ STAGE\s?([123][AB]?)/i.match(e.text)
-      unless m.nil?
-        case m[1].upcase
-        when '1'
-          return 1
-        when '2'
-          return 2
-        when '3A'
-          return 3
-        when '3B'
-          return 4
+    nhtml = Nokogiri::HTML(open('http://www.capetown.gov.za/loadshedding/Loadshedding.html'))
+    nhtml.css('.mainContainer .alertbox').each do |e|
+      puts e.inspect
+      puts e['style']
+      if (e.include? 'style') and (e['style'].include? 'display:block') do
+        m = /CURRENTLY EXPERIENCING[a-z\s]+ STAGE\s?([123][AB]?)/i.match(e.text)
+        unless m.nil?
+          case m[1].upcase
+          when '1'
+            return 1
+          when '2'
+            return 2
+          when '3A'
+            return 3
+          when '3B'
+            return 4
+          end
         end
-      end
-      if /LOADSHEDDING HAS BEEN SUSPENDED UNTIL FURTHER NOTICE/i =~ e.text
-        puts "Capetown says not currently load shedding"
-        return 0
+        if /LOADSHEDDING HAS BEEN SUSPENDED UNTIL FURTHER NOTICE/i =~ e.text
+          puts "Capetown says not currently load shedding"
+          return 0
+        end
       end
     end
     nil
@@ -51,7 +55,12 @@ class UpdatesController < ApplicationController
 
   def recheck
     source_msg = 'eskom.co.za'
-    active_stage = get_cptgov_status()
+    begin
+      active_stage = get_cptgov_status()
+    rescue Exception => e
+      puts e
+      active_stage = nil
+    end
     unless active_stage.nil?
       source_msg = 'capetown.gov.za'
     else
