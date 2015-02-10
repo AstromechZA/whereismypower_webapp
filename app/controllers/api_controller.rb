@@ -93,52 +93,6 @@ class ApiController < ApplicationController
       return
     end
 
-    r = Schedule.find_by(area: area, day_of_month: date.day, stage: stage)
-    if r.nil?
-      render json: {error: "Schedule not found"}, status: 404, callback: params['callback']
-      return
-    else
-      render json: {outages: r.outages, area_id: r.area, stage: r.stage, date: date, day_of_month: date.day}, callback: params['callback']
-      return
-    end
-  end
-
-  def get_schedule_v2
-    # check missing params
-    [:area, :date, :stage].each do |variable|
-      if params[variable].nil?
-        render json: {error: "Missing '#{variable}' parameter"}, status: 400, callback: params['callback']
-        return
-      end
-    end
-
-    case params[:date]
-    when 'today'
-      date = Date.today
-    when 'tomorrow'
-      date = Date.today + 1
-    else
-      begin
-        date = Date.parse(params[:date])
-      rescue Exception => e
-        render json: {error: "Badly formatted date: '#{params[:date]}'"}, status: 400, callback: params['callback']
-        return
-      end
-    end
-
-    begin
-      stage = STAGENAME_TRANSLATIONS.fetch(params[:stage].downcase)
-    rescue Exception => e
-      render json: {error: "Unknown stage: '#{params[:stage]}'"}, status: 400, callback: params['callback']
-      return
-    end
-
-    area = params[:area].to_i
-    unless (1..16) === area
-      render json: {error: "Area number not in range 1-16: #{area}"}, status: 400, callback: params['callback']
-      return
-    end
-
     r = LoadsheddingPeriod
       .select(:period)
       .where(area: area, day_of_month: date.day, "is_load_shedding#{stage}" => true)
