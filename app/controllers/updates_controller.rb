@@ -28,9 +28,7 @@ class UpdatesController < ApplicationController
     puts "Scraping capetown.gov.za for load shedding status"
     nhtml = Nokogiri::HTML(open('http://www.capetown.gov.za/loadshedding/Loadshedding.html'))
     nhtml.css('.mainContainer .alertbox').each do |e|
-      puts e.inspect
-      puts e['style']
-      if (e.include? 'style') and (e['style'].include? 'display:block') do
+      if (e.include? 'style') and (e['style'].include? 'display:block')
         m = /CURRENTLY EXPERIENCING[a-z\s]+ STAGE\s?([123][AB]?)/i.match(e.text)
         unless m.nil?
           case m[1].upcase
