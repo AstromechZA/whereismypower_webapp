@@ -20,15 +20,21 @@ class ApiController < ApplicationController
     '4' => 4
   }
 
+  STAGENUM_MAP = ['No Load Shedding', 'Stage 1', 'Stage 2', 'Stage 3A', 'Stage 3B']
+
   def index
   end
 
   def get_status
     u = Update.last
     if u.nil?
-      render json: {active_stage: nil, timestamp: nil}, :callback => params['callback']
+      render json: {active_stage: nil, active_stage_name: nil, timestamp: nil}, :callback => params['callback']
     else
-      render json: {active_stage: u.stage, timestamp: u.updated_at}, :callback => params['callback']
+      render json: {
+        active_stage: u.stage,
+        active_stage_name: STAGENUM_MAP[u.stage || 0] ,
+        timestamp: u.updated_at
+      }, :callback => params['callback']
     end
   end
 
@@ -55,7 +61,7 @@ class ApiController < ApplicationController
         date = Date.parse(params[:date])
       rescue Exception => e
         puts e
-        render json: {error: "Badly formatted date: #{params[:date]}"}, status: 500, :callback => params['callback']
+        render json: {error: "Badly formatted date: '#{params[:date]}'"}, status: 500, :callback => params['callback']
         return
       end
     end
@@ -64,7 +70,7 @@ class ApiController < ApplicationController
       stage = STAGENAME_TRANSLATIONS.fetch(params[:stage].downcase)
     rescue Exception => e
       puts e
-      render json: {error: "Unknown stage: #{params[:stage]}"}, status: 500, :callback => params['callback']
+      render json: {error: "Unknown stage: '#{params[:stage]}'"}, status: 500, :callback => params['callback']
       return
     end
 
