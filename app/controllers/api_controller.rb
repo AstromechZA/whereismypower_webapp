@@ -22,31 +22,46 @@ class ApiController < ApplicationController
 
   STAGENUM_MAP = ['No Load Shedding', 'Stage 1', 'Stage 2', 'Stage 3A', 'Stage 3B']
 
+  PERIOD_TIMES = [
+      '00:00 - 02:30',
+      '02:00 - 04:30',
+      '04:00 - 06:30',
+      '06:00 - 08:30',
+      '08:00 - 10:30',
+      '10:00 - 12:30',
+      '12:00 - 14:30',
+      '14:00 - 16:30',
+      '16:00 - 18:30',
+      '18:00 - 20:30',
+      '20:00 - 22:30',
+      '22:00 - 00:30'
+  ]
+
   def index
   end
 
   def get_status
     u = Update.last
     if u.nil?
-      render json: {active_stage: nil, active_stage_name: nil, timestamp: nil}, :callback => params['callback']
+      render json: {active_stage: nil, active_stage_name: nil, timestamp: nil}, callback: params['callback']
     else
       render json: {
         active_stage: u.stage,
         active_stage_name: STAGENUM_MAP[u.stage || 0] ,
         timestamp: u.updated_at
-      }, :callback => params['callback']
+      }, callback: params['callback']
     end
   end
 
   def list_areas
-    render json: Area.all.map { |a| {area_id: a.code, name: a.name, description: a.long_name} }, :callback => params['callback']
+    render json: Area.all.map { |a| {area_id: a.code, name: a.name, description: a.long_name} }, callback: params['callback']
   end
 
   def get_schedule
     # check missing params
     [:area, :date, :stage].each do |variable|
       if params[variable].nil?
-        render json: {error: "Missing '#{variable}' parameter"}, status: 500, :callback => params['callback']
+        render json: {error: "Missing '#{variable}' parameter"}, status: 400, callback: params['callback']
         return
       end
     end
@@ -60,8 +75,7 @@ class ApiController < ApplicationController
       begin
         date = Date.parse(params[:date])
       rescue Exception => e
-        puts e
-        render json: {error: "Badly formatted date: '#{params[:date]}'"}, status: 500, :callback => params['callback']
+        render json: {error: "Badly formatted date: '#{params[:date]}'"}, status: 400, callback: params['callback']
         return
       end
     end
@@ -69,25 +83,69 @@ class ApiController < ApplicationController
     begin
       stage = STAGENAME_TRANSLATIONS.fetch(params[:stage].downcase)
     rescue Exception => e
-      puts e
-      render json: {error: "Unknown stage: '#{params[:stage]}'"}, status: 500, :callback => params['callback']
+      render json: {error: "Unknown stage: '#{params[:stage]}'"}, status: 400, callback: params['callback']
       return
     end
 
     area = params[:area].to_i
     unless (1..16) === area
-      render json: {error: "Area number not in range 1-16: #{area}"}, status: 500, :callback => params['callback']
+      render json: {error: "Area number not in range 1-16: #{area}"}, status: 400, callback: params['callback']
       return
     end
 
     r = Schedule.find_by(area: area, day_of_month: date.day, stage: stage)
     if r.nil?
-      render json: {error: "Schedule not found"}, status: 404, :callback => params['callback']
+      render json: {error: "Schedule not found"}, status: 404, callback: params['callback']
       return
     else
-      render json: {outages: r.outages, area_id: r.area, stage: r.stage, date: date, day_of_month: date.day}, :callback => params['callback']
+      render json: {outages: r.outages, area_id: r.area, stage: r.stage, date: date, day_of_month: date.day}, callback: params['callback']
       return
     end
+  end
+
+  def get_schedule_v2
+    # check missing params
+    [:area, :date, :stage].each do |variable|
+      if params[variable].nil?
+        render json: {error: "Missing '#{variable}' parameter"}, status: 400, callback: params['callback']
+        return
+      end
+    end
+
+    case params[:date]
+    when 'today'
+      date = Date.today
+    when 'tomorrow'
+      date = Date.today + 1
+    else
+      begin
+        date = Date.parse(params[:date])
+      rescue Exception => e
+        render json: {error: "Badly formatted date: '#{params[:date]}'"}, status: 400, callback: params['callback']
+        return
+      end
+    end
+
+    begin
+      stage = STAGENAME_TRANSLATIONS.fetch(params[:stage].downcase)
+    rescue Exception => e
+      render json: {error: "Unknown stage: '#{params[:stage]}'"}, status: 400, callback: params['callback']
+      return
+    end
+
+    area = params[:area].to_i
+    unless (1..16) === area
+      render json: {error: "Area number not in range 1-16: #{area}"}, status: 400, callback: params['callback']
+      return
+    end
+
+    r = LoadsheddingPeriod
+      .select(:period)
+      .where(area: area, day_of_month: date.day, "is_load_shedding#{stage}" => true)
+      .map { |e| PERIOD_TIMES[e.period] }
+
+    render json: {outages: r, area_id: area, stage: stage, date: date, day_of_month: date.day}, callback: params['callback']
+    return
   end
 
 end
