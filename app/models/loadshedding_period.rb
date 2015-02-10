@@ -10,18 +10,7 @@ class LoadsheddingPeriod < ActiveRecord::Base
 
 
   def is_load_shedding?(stage)
-    case stage
-    when 1
-      return self.is_load_shedding1
-    when 2
-      return self.is_load_shedding2
-    when 3
-      return self.is_load_shedding3
-    when 4
-      return self.is_load_shedding4
-    else
-      raise "Unknown stage: #{stage}"
-    end
+    self[LoadsheddingPeriod.ls_column(stage)]
   end
 
   # =========== class methods ===========
@@ -74,10 +63,6 @@ class LoadsheddingPeriod < ActiveRecord::Base
   end
 
   def self.is_area_shedding?(area, stage, datetime=nil)
-    if stage.nil?
-      return false
-    end
-
     # if datetime was not provided, set to now
     datetime ||= Time.now
     # calculate time constants
@@ -113,25 +98,25 @@ class LoadsheddingPeriod < ActiveRecord::Base
   end
 
   def self.next_loadshed_time(area, stage, datetime=nil)
-    if stage.nil?
-      return nil
-    end
-
     # if datetime was not provided, set to now
     datetime ||= Time.now
     period_main = (datetime.hour * 60 + datetime.min) / 120
     month_order_main = datetime.day * 12 + period_main
 
-    r = self.where('area = ? AND month_order > ?', area, month_order_main).first
+    r = self.where("area = ? AND month_order > ?", area, month_order_main).where(self.ls_column(stage) => true).first
     unless r.nil?
       datetime = datetime.change day: r.day_of_month
       return datetime.change hour: r.period * 2, minute: 0, second: 0
     end
 
-    r = self.where('area = ? AND month_order > ?', area, 0).first
-    datetime = datetime.change day: r.day_of_month
-    datetime = datetime.advance months: 1
-    return datetime.change hour: r.period * 2, minute: 0, second: 0
+    r = self.where("area = ? AND month_order > ?", area, 0).where(self.ls_column(stage) => true).first
+    unless r.nil?
+      datetime = datetime.change day: r.day_of_month
+      datetime = datetime.advance months: 1
+      return datetime.change hour: r.period * 2, minute: 0, second: 0
+    end
+
+    return nil
   end
 
 end

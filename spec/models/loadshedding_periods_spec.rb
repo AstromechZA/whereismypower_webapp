@@ -53,17 +53,29 @@ RSpec.describe LoadsheddingPeriod, type: :model do
   end
 
   describe 'next_loadshed_time' do
-    it 'basic' do
-      LoadsheddingPeriod.create!(area: 11, day_of_month: 11, period: 3, is_load_shedding1: false, is_load_shedding2: true, is_load_shedding3: false, is_load_shedding4: true)
-      LoadsheddingPeriod.create!(area: 11, day_of_month: 11, period: 6, is_load_shedding1: true, is_load_shedding2: false, is_load_shedding3: true, is_load_shedding4: false)
-
-      expect(LoadsheddingPeriod.next_loadshed_time 11, 1, Time.new(2000, 2, 11, 8, 0, 0)).to eq(Time.new(2000, 2, 11, 12, 0, 0))
-      expect(LoadsheddingPeriod.next_loadshed_time 11, 1, Time.new(2000, 2, 11, 14, 0, 0)).to eq(Time.new(2000, 3, 11, 6, 0, 0))
-      expect(LoadsheddingPeriod.next_loadshed_time 11, 1, Time.new(2000, 12, 11, 14, 0, 0)).to eq(Time.new(2001, 1, 11, 6, 0, 0))
+    it 'works in the basic case' do
+      LoadsheddingPeriod.create!(area: 11, day_of_month: 5, period: 3, is_load_shedding1: true, is_load_shedding2: false, is_load_shedding3: true, is_load_shedding4: false)
+      expect(LoadsheddingPeriod.next_loadshed_time 11, 1, Time.new(2000, 2, 3, 2, 0, 0)).to eq(Time.new(2000, 2, 5, 6, 0, 0))
+      expect(LoadsheddingPeriod.next_loadshed_time 11, 3, Time.new(2000, 2, 3, 2, 0, 0)).to eq(Time.new(2000, 2, 5, 6, 0, 0))
     end
+
+    it 'is nil if never loadshedding' do
+      LoadsheddingPeriod.create!(area: 11, day_of_month: 5, period: 3, is_load_shedding1: true, is_load_shedding2: false, is_load_shedding3: true, is_load_shedding4: false)
+      expect(LoadsheddingPeriod.next_loadshed_time 11, 2, Time.new(2000, 2, 3, 2, 0, 0)).to be(nil)
+    end
+
+    it 'is correct in next month' do
+      LoadsheddingPeriod.create!(area: 11, day_of_month: 5, period: 3, is_load_shedding1: true, is_load_shedding2: false, is_load_shedding3: true, is_load_shedding4: false)
+      expect(LoadsheddingPeriod.next_loadshed_time 11, 1, Time.new(2000, 2, 15, 2, 0, 0)).to eq(Time.new(2000, 3, 5, 6, 0, 0))
+    end
+
   end
 
   describe 'areas_shedding' do
+    it 'handles nil right' do
+      expect(LoadsheddingPeriod.areas_shedding nil).to eq([])
+    end
+
     it 'works in the basic case' do
       LoadsheddingPeriod.create!(area: 13, day_of_month: 11, period: 3, is_load_shedding1: false, is_load_shedding2: false, is_load_shedding3: true, is_load_shedding4: false)
       LoadsheddingPeriod.create!(area: 9, day_of_month: 11, period: 3, is_load_shedding1: false, is_load_shedding2: false, is_load_shedding3: false, is_load_shedding4: false)
