@@ -69,6 +69,11 @@ RSpec.describe LoadsheddingPeriod, type: :model do
       expect(LoadsheddingPeriod.next_loadshed_time 11, 1, Time.new(2000, 2, 15, 2, 0, 0)).to eq(Time.new(2000, 3, 5, 6, 0, 0))
     end
 
+    it 'is correct in next year' do
+      LoadsheddingPeriod.create!(area: 11, day_of_month: 5, period: 3, is_load_shedding1: true, is_load_shedding2: false, is_load_shedding3: true, is_load_shedding4: false)
+      expect(LoadsheddingPeriod.next_loadshed_time 11, 1, Time.new(2000, 12, 15, 2, 0, 0)).to eq(Time.new(2001, 1, 5, 6, 0, 0))
+    end
+
   end
 
   describe 'areas_shedding' do

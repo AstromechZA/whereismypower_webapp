@@ -150,4 +150,66 @@ RSpec.describe ApiController, type: :controller do
     end
   end
 
+  describe 'GET get_next_loadshedding' do
+    it 'returns correct period in the basic case' do
+      LoadsheddingPeriod.create(area: 2, day_of_month: 3, period: 1,
+        is_load_shedding1: true,
+        is_load_shedding2: false,
+        is_load_shedding3: false,
+        is_load_shedding4: false)
+
+      LoadsheddingPeriod.create(area: 2, day_of_month: 3, period: 5,
+        is_load_shedding1: true,
+        is_load_shedding2: false,
+        is_load_shedding3: false,
+        is_load_shedding4: false)
+
+      LoadsheddingPeriod.create(area: 2, day_of_month: 3, period: 9,
+        is_load_shedding1: true,
+        is_load_shedding2: false,
+        is_load_shedding3: false,
+        is_load_shedding4: false)
+
+      Timecop.freeze(Time.new(2015, 1, 3, 0, 0, 0)) do
+        get :get_next_loadshedding, area: 2, stage: 1
+        expect(JSON.parse(response.body)).to eq({
+          "area_id" => 2,
+          "next_outage_period" => "02:00 - 04:30",
+          "next_outage" => Time.new(2015, 1, 3, 2, 0, 0).iso8601(),
+          "stage" => 1
+        })
+      end
+
+      Timecop.freeze(Time.new(2015, 1, 3, 3, 0, 0)) do
+        get :get_next_loadshedding, area: 2, stage: 1
+        expect(JSON.parse(response.body)).to eq({
+          "area_id" => 2,
+          "next_outage_period" => "02:00 - 04:30",
+          "next_outage" => Time.new(2015, 1, 3, 2, 0, 0).iso8601(),
+          "stage" => 1
+        })
+      end
+
+      Timecop.freeze(Time.new(2015, 1, 3, 4, 40, 0)) do
+        get :get_next_loadshedding, area: 2, stage: 1
+        expect(JSON.parse(response.body)).to eq({
+          "area_id" => 2,
+          "next_outage_period" => "10:00 - 12:30",
+          "next_outage" => Time.new(2015, 1, 3, 10, 0, 0).iso8601(),
+          "stage" => 1
+        })
+      end
+
+      Timecop.freeze(Time.new(2015, 1, 3, 23, 40, 0)) do
+        get :get_next_loadshedding, area: 2, stage: 1
+        expect(JSON.parse(response.body)).to eq({
+          "area_id" => 2,
+          "next_outage_period" => "02:00 - 04:30",
+          "next_outage" => Time.new(2015, 2, 3, 2, 0, 0).iso8601(),
+          "stage" => 1
+        })
+      end
+    end
+  end
+
 end

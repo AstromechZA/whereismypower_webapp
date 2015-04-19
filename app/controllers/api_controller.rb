@@ -1,3 +1,5 @@
+require 'time'
+
 class ApiController < ApplicationController
   protect_from_forgery except: [:get_status, :list_areas, :get_schedule]
 
@@ -99,6 +101,45 @@ class ApiController < ApplicationController
       .map { |e| PERIOD_TIMES[e.period] }
 
     render json: {outages: r, area_id: area, stage: stage, date: date, day_of_month: date.day}, callback: params['callback']
+    return
+  end
+
+  def get_next_loadshedding
+    # check missing params
+    [:area, :stage].each do |variable|
+      if params[variable].nil?
+        render json: {error: "Missing '#{variable}' parameter"}, status: 400, callback: params['callback']
+        return
+      end
+    end
+
+    # validate stage param
+    begin
+      stage = STAGENAME_TRANSLATIONS.fetch(params[:stage].downcase)
+    rescue Exception => e
+      render json: {error: "Unknown stage: '#{params[:stage]}'"}, status: 400, callback: params['callback']
+      return
+    end
+
+    # validate area param
+    area = params[:area].to_i
+    unless (1..16) === area
+      render json: {error: "Area number not in range 1-16: #{area}"}, status: 400, callback: params['callback']
+      return
+    end
+
+    # get period
+    r = LoadsheddingPeriod.next_loadshed_time(area, stage, Time.now())
+
+    if r.nil?
+      render json: {error: "No loadshedding periods could be found for area #{area} and stage #{stage}"}, status: 400, callback: params['callback']
+    else
+      # convert to client variables
+      next_outage = r.iso8601()
+      next_outage_period = PERIOD_TIMES[r.hour / 2]
+      # output
+      render json: {area_id: area, stage: stage, next_outage: next_outage, next_outage_period: next_outage_period}
+    end
     return
   end
 

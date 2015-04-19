@@ -103,13 +103,13 @@ class LoadsheddingPeriod < ActiveRecord::Base
     period_main = (datetime.hour * 60 + datetime.min) / 120
     month_order_main = datetime.day * 12 + period_main
 
-    r = self.where("area = ? AND month_order > ?", area, month_order_main).where(self.ls_column(stage) => true).first
+    r = self.where("area = ? AND month_order >= ? AND #{self.ls_column(stage)} = ?", area, month_order_main, true).first
     unless r.nil?
       datetime = datetime.change day: r.day_of_month
       return datetime.change hour: r.period * 2, minute: 0, second: 0
     end
 
-    r = self.where("area = ? AND month_order > ?", area, 0).where(self.ls_column(stage) => true).first
+    r = self.where("area = ? AND month_order >= ? AND #{self.ls_column(stage)} = ?", area, 0, true).first
     unless r.nil?
       datetime = datetime.change day: r.day_of_month
       datetime = datetime.advance months: 1

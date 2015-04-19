@@ -34,6 +34,7 @@ group :development, :test do
   gem 'faker'
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'database_cleaner'
+  gem 'timecop'
 end
 
 # other production gems
