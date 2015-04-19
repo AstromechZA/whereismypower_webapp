@@ -9,6 +9,5 @@ Bundler.require(*Rails.groups)
 module CapetownPower
   class Application < Rails::Application
     config.time_zone = 'Africa/Johannesburg'
-    config.active_record.default_timezone = 'Africa/Johannesburg'
   end
 end
