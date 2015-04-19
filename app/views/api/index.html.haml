@@ -96,6 +96,45 @@
 
 %br
 %h2
+  4.
+  %code /api/get_next_loadshedding
+%p
+  Retrieve the next time that loadshedding will occur in the givent area under stome stage.
+%p
+  This request expects exactly 2 parameters: <code>area</code> and <code>stage</code>
+  %ul
+    %li
+      <code>area</code> is the area number. From 1 to 16.
+    %li
+      <code>stage</code> is the loadshedding stage. Preferably a number 1, 2, 3 or 4. <code>3A</code> is equivalent to 3. <code>3B</code> is equivalent to 4.
+
+%p
+  The resulting object contains 4 fields: <code>area_id</code>, <code>stage</code>, <code>next_outage</code> and <code>next_outage_period</code>.
+  %ul
+    %li
+      <code>next_outage</code> is an ISO8601 formatted datetime indicating the start of the loadshedding period that will next influence the
+      area and stage. If the area is currently loadshedding, this field will show the start of the current period.
+    %li
+      <code>next_outage_period</code> is a string showing the loadshedding period as <code>'0X:00 - 0Y:30'</code>.
+    %li
+      <code>area_id</code> confirmation of the area number requested.
+    %li
+      <code>stage</code> confirmation of the stage requested.
+
+%h4
+  Example Request
+  = link_to 'run', api_get_next_loadshedding_path(area: 11, stage: '3B'), class: 'btn btn-secondary btn-xs'
+%pre
+  curl "http://whereismypower.co.za/api/get_next_loadshedding?area=11&stage=3B"
+%h4
+  Example Response
+  %span.small (this will change depending on the time that you run the request)
+%pre
+  {"area_id": 11, "stage": 4, "next_outage": "2015-04-19T12:00:00+02:00", "next_outage_period": "12:00 - 14:30"}
+
+
+%br
+%h2
   Note: Javascript callbacks (JSONP)
 %p
   All 3 API calls accept an additional <code>callback</code> parameter which returns the result wrapped in the given Javascript function.
