@@ -1,7 +1,7 @@
 require 'time'
 
 class ApiController < ApplicationController
-  protect_from_forgery except: [:get_status, :list_areas, :get_schedule]
+  protect_from_forgery except: [:get_status, :list_areas, :get_schedule, :get_next_loadshedding]
 
   respond_to :json
 
@@ -138,7 +138,7 @@ class ApiController < ApplicationController
       next_outage = r.iso8601()
       next_outage_period = PERIOD_TIMES[r.hour / 2]
       # output
-      render json: {area_id: area, stage: stage, next_outage: next_outage, next_outage_period: next_outage_period}
+      render json: {area_id: area, stage: stage, next_outage: next_outage, next_outage_period: next_outage_period}, callback: params['callback']
     end
     return
   end
