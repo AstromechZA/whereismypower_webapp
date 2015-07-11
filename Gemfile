@@ -27,6 +27,8 @@ gem 'nokogiri', '~> 1.6.5'
 
 gem 'newrelic_rpm'
 
+gem 'lograge'
+
 # gems for unittests
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0' # Rspec runs our unit tests
@@ -35,6 +37,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'database_cleaner'
   gem 'timecop'
+  gem 'quiet_assets'
 end
 
 # other production gems

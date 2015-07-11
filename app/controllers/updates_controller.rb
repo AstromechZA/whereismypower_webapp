@@ -10,10 +10,10 @@ class UpdatesController < ApplicationController
   end
 
   def get_eskom_status
-    puts "Scraping eskom.co.za for load shedding status"
+    Rails.logger.info "Scraping eskom.co.za for load shedding status"
     uri = URI.parse('http://loadshedding.eskom.co.za/LoadShedding/GetStatus')
     r = Net::HTTP.get(uri).to_i
-    puts "Eskom API returned #{r}"
+    Rails.logger.info "Eskom API returned #{r}"
     case r
     when 1
       return 0
@@ -25,12 +25,12 @@ class UpdatesController < ApplicationController
   end
 
   def get_cptgov_status
-    puts "Scraping capetown.gov.za for load shedding status"
+    Rails.logger.info "Scraping capetown.gov.za for load shedding status"
     nhtml = Nokogiri::HTML(open('http://www.capetown.gov.za/en/electricity/Pages/LoadShedding.aspx'))
     nhtml.css('div.CityArticleText td.CityArticleTitle').each do |e|
-      puts e.inspect
+      Rails.logger.info e.inspect
       m = /CURRENTLY EXPERIENCING[a-z\s]+? STAGE\s?([123][AB]?)/i.match(e.text)
-      puts 'Got match'
+      Rails.logger.info 'Got match'
       unless m.nil?
         case m[1].upcase
         when '1'
@@ -44,13 +44,13 @@ class UpdatesController < ApplicationController
         end
       end
       if /LOADSHEDDING HAS BEEN SUSPENDED UNTIL FURTHER NOTICE/i =~ e.text
-        puts "Capetown says not currently load shedding"
+        Rails.logger.info "Capetown says not currently load shedding"
         return 0
       end
-      puts "No Match"
+      Rails.logger.info "No Match"
       return nil
     end
-    puts "No Elements match search"
+    Rails.logger.info "No Elements match search"
     nil
   end
 
@@ -59,7 +59,7 @@ class UpdatesController < ApplicationController
     begin
       active_stage = get_cptgov_status()
     rescue Exception => e
-      puts e
+      Rails.logger.error e
       active_stage = nil
     end
     unless active_stage.nil?
