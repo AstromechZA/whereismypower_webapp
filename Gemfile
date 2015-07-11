@@ -39,8 +39,3 @@ group :development, :test do
   gem 'timecop'
   gem 'quiet_assets'
 end
-
-# other production gems
-group :production do
-  gem 'rails_12factor'
-end

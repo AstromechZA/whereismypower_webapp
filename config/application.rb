@@ -11,11 +11,10 @@ module CapetownPower
     config.time_zone = 'Africa/Johannesburg'
 
     unless Rails.env.test?
-      log_level = String(ENV['LOG_LEVEL'] || "info").upcase
-      config.logger = Logger.new(STDOUT)
+      log_level = String(ENV['LOG_LEVEL'] || 'info').upcase
+      config.logger = (Rails.env.development? ? Logger.new('/dev/null') : Logger.new(STDOUT))
       config.logger.level = Logger.const_get(log_level)
       config.log_level = log_level
-      config.lograge.enabled = true # see lograge section below...
     end
   end
 end
